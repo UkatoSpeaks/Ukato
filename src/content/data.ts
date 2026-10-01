@@ -215,7 +215,7 @@ export const projects: Project[] = [
     slug: "tacticlens",
     name: "TacticLens",
     year: 2026,
-    status: "live",
+    status: "building",
     oneLiner:
       "Tactical intelligence for La Liga: team styles, passing networks, pressing metrics and generated scouting reports.",
     problem:
