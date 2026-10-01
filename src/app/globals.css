@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens. Dark only.
+ * Accent is ink-red and rationed: active states, the cursor dot, tiny details.
+ * Keep it to ~3 uses per screen.
+ */
+@theme inline {
+  --color-bg: #0a0a0a;
+  --color-surface: #111111;
+  --color-border: #1f1f1f;
+  --color-text: #e8e8e8;
+  --color-muted: #8a8a8a;
+  --color-dim: #555555;
+  --color-accent: #b3261e;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  background: var(--color-bg);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-text);
+}
+
+/* Faint diagonal hatching for section divider bands. */
+@utility hatched {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent 0,
+    transparent 7px,
+    rgb(255 255 255 / 0.035) 7px,
+    rgb(255 255 255 / 0.035) 8px
+  );
+}
