@@ -23,7 +23,8 @@ export type Experience = {
   location: string;
   start: string;
   end: string;
-  highlights: string[];
+  summary: string;
+  href?: string;
 };
 
 export type Education = {
@@ -32,11 +33,22 @@ export type Education = {
   location: string;
   start: string;
   end: string;
+  href?: string;
 };
 
 export type Achievement = {
   title: string;
   detail?: string;
+  href?: string;
+};
+
+export type StackGroup = {
+  category: string;
+  items: string[];
+};
+
+export type Contact = {
+  note: string;
 };
 
 export type Project = {
@@ -103,11 +115,8 @@ export const experience: Experience[] = [
     location: "Remote",
     start: "Apr 2026",
     end: "Jun 2026",
-    highlights: [
-      "Built FastAPI + PostgreSQL backends.",
-      "Built LangGraph/LangChain agent workflows.",
-      "Built RAG pipelines with ChromaDB.",
-    ],
+    summary:
+      "Built FastAPI and PostgreSQL backends, LangGraph/LangChain agent workflows, and RAG pipelines with ChromaDB.",
   },
 ];
 
@@ -124,15 +133,51 @@ export const education: Education[] = [
 export const achievements: Achievement[] = [
   {
     title: "LeetCode Knight",
-    detail: "Top 5%, 350+ DSA problems solved",
+    detail: "Top 5%, 350+ problems solved",
   },
   {
     title: "Oracle Certified Foundations Associate",
+    detail: "Oracle University",
   },
   {
     title: "Oracle Agentic AI Certified Foundations Associate",
+    detail: "Oracle University",
   },
 ];
+
+export const stack: StackGroup[] = [
+  {
+    category: "AI",
+    items: [
+      "LangGraph",
+      "LangChain",
+      "RAG",
+      "ChromaDB",
+      "Groq",
+      "Mistral",
+      "prompt engineering",
+      "LLM evaluation",
+      "scikit-learn",
+      "pandas",
+    ],
+  },
+  {
+    category: "Backend",
+    items: ["Python", "FastAPI", "Node.js", "Express", "PostgreSQL", "Supabase"],
+  },
+  {
+    category: "Frontend",
+    items: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Streamlit"],
+  },
+  {
+    category: "Other",
+    items: ["C++", "Git", "Vercel", "Render"],
+  },
+];
+
+export const contact: Contact = {
+  note: "The best way to reach me is email. I usually reply within a day.",
+};
 
 export const projects: Project[] = [
   {

@@ -1,11 +1,21 @@
+import { Contact } from "@/components/Contact";
+import { Experience } from "@/components/Experience";
 import { FadeIn } from "@/components/FadeIn";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Intro } from "@/components/Intro";
+import { Recognition } from "@/components/Recognition";
 import { Section } from "@/components/Section";
 import { SelectedWork } from "@/components/SelectedWork";
+import { Stack } from "@/components/Stack";
 
-const upcoming = ["Experience", "Stack", "Recognition", "Contact"];
+const sections = [
+  { label: "Selected work", body: <SelectedWork /> },
+  { label: "Experience", body: <Experience /> },
+  { label: "Stack", body: <Stack /> },
+  { label: "Recognition", body: <Recognition /> },
+  { label: "Contact", body: <Contact /> },
+];
 
 export default function Home() {
   return (
@@ -18,17 +28,14 @@ export default function Home() {
       </FadeIn>
 
       <main className="mt-20 flex flex-col gap-20">
-        <Section index={2} label="Selected work">
-          <SelectedWork />
-        </Section>
-        {upcoming.map((label, i) => (
-          <Section key={label} index={i + 3} label={label}>
-            <p className="text-ink-3">—</p>
+        {sections.map((s, i) => (
+          <Section key={s.label} index={i + 2} label={s.label}>
+            {s.body}
           </Section>
         ))}
       </main>
 
-      <FadeIn as="footer" index={upcoming.length + 3} className="mt-20">
+      <FadeIn as="footer" index={sections.length + 2} className="mt-20">
         <Footer />
       </FadeIn>
     </div>

@@ -44,6 +44,13 @@
   --font-weight-name: 550;
 
   --animate-seal-pulse: seal-pulse 2s ease-in-out infinite;
+  --animate-fade: fade 200ms ease-out;
+
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+  }
 
   @keyframes seal-pulse {
     0%,
@@ -125,7 +132,8 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-seal-pulse {
+  .animate-seal-pulse,
+  .animate-fade {
     animation: none;
   }
 
