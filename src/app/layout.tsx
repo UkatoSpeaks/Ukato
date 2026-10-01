@@ -25,13 +25,23 @@ export const metadata: Metadata = {
   description: site.tagline,
 };
 
+// Runs before first paint so a saved dark theme never flashes light.
+const themeScript = `try{if(localStorage.getItem("theme")==="dark")document.documentElement.classList.add("dark")}catch(e){}`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        {/* Without JS the load animation never runs, so show everything. */}
+        <noscript>
+          <style>{`[data-fade]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} antialiased`}
       >

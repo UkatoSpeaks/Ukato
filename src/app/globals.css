@@ -1,50 +1,120 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /*
- * Design tokens. Dark only.
- * Accent is ink-red and rationed: active states, the cursor dot, tiny details.
- * Keep it to ~3 uses per screen.
+ * Washi tokens. Light is the default; .dark on <html> swaps the values.
+ * Seal (vermilion) is the only accent: the mark, the status dot, link hover.
  */
+:root {
+  color-scheme: light;
+  --paper: #f7f5f0;
+  --paper-2: #efece5;
+  --ink: #151515;
+  --ink-2: #5e5e5a;
+  --ink-3: #9a9790;
+  --line: #e3dfd6;
+  --seal: #c2361f;
+}
+
+.dark {
+  color-scheme: dark;
+  --paper: #0f0f0e;
+  --paper-2: #181816;
+  --ink: #edebe6;
+  --ink-2: #a3a09a;
+  --ink-3: #6b6862;
+  --line: #262522;
+  --seal: #d9482f;
+}
+
 @theme inline {
-  --color-bg: #0a0a0a;
-  --color-surface: #111111;
-  --color-border: #1f1f1f;
-  --color-text: #e8e8e8;
-  --color-muted: #8a8a8a;
-  --color-dim: #555555;
-  --color-accent: #b3261e;
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-seal: var(--seal);
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
   --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
-}
 
-:root {
-  color-scheme: dark;
+  --animate-seal-pulse: seal-pulse 2s ease-in-out infinite;
+
+  @keyframes seal-pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.35;
+    }
+  }
 }
 
 html {
-  background: var(--color-bg);
+  background: var(--paper);
 }
 
 body {
-  background: var(--color-bg);
-  color: var(--color-text);
+  background: var(--paper);
+  color: var(--ink-2);
   font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.65;
 }
 
 ::selection {
-  background: var(--color-accent);
-  color: var(--color-text);
+  background: color-mix(in srgb, var(--seal) 15%, transparent);
 }
 
-/* Faint diagonal hatching for section divider bands. */
-@utility hatched {
-  background-image: repeating-linear-gradient(
-    45deg,
-    transparent 0,
-    transparent 7px,
-    rgb(255 255 255 / 0.035) 7px,
-    rgb(255 255 255 / 0.035) 8px
-  );
+:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--seal) 40%, transparent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Set by the theme toggle for the duration of the swap only. */
+.theme-transition,
+.theme-transition * {
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease,
+    text-decoration-color 200ms ease !important;
+}
+
+/* Inline text link: ink, hairline underline that turns seal on hover. */
+@utility link {
+  color: var(--ink);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--line);
+  transition: text-decoration-color 200ms ease;
+
+  &:hover {
+    text-decoration-color: var(--seal);
+  }
+}
+
+/* Dates, years and tiny meta. */
+@utility meta {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-seal-pulse {
+    animation: none;
+  }
+
+  .theme-transition,
+  .theme-transition * {
+    transition: none !important;
+  }
 }

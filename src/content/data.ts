@@ -17,6 +17,35 @@ export type Site = {
   links: Links;
 };
 
+export type Hero = {
+  status: string;
+  subline: string;
+  bullets: string[];
+  resumeLabel: string;
+  contactLabel: string;
+};
+
+export type SectionId =
+  | "about"
+  | "contact"
+  | "projects"
+  | "experience"
+  | "skills"
+  | "github";
+
+export type SectionMeta = {
+  id: SectionId;
+  label: string;
+  title: string;
+};
+
+export type UiCopy = {
+  indexLabel: string;
+  menuLabel: string;
+  closeLabel: string;
+  gutterLine: string;
+};
+
 export type Experience = {
   role: string;
   company: string;
@@ -67,6 +96,62 @@ export const site: Site = {
     email: "chaudharyanurag801@gmail.com",
     resume: "/resume.pdf",
   },
+};
+
+export const hero: Hero = {
+  status: "Available · Open to AI / Full-Stack roles · IST",
+  subline:
+    "AI Engineer. I build agents, RAG systems, and the full-stack products around them.",
+  bullets: [
+    "Currently working on agentic systems and learning LLM evaluation properly.",
+    "Shipped production-style AI apps, including Kavach, a fraud-detection platform for Indian users.",
+    "Open to collaborating on ambitious, well-scoped ideas.",
+  ],
+  resumeLabel: "Resume",
+  contactLabel: "Get in touch",
+};
+
+// A paragraph is a run of parts: plain text, a name (linked when a verified
+// URL exists), or an emphasis word set in italic serif.
+export type IntroPart = string | { text: string; href?: string } | { em: string };
+
+export type Intro = {
+  paragraphs: IntroPart[][];
+  status: string;
+};
+
+export const intro: Intro = {
+  paragraphs: [
+    [
+      "I build AI agents, RAG systems, and the full-stack products around them — quietly, and with ",
+      { em: "care" },
+      ".",
+    ],
+    [
+      "Most recently an AI Engineer intern at ",
+      { text: "Tsole Technologies" },
+      ", working on LangGraph agents and RAG pipelines. Right now I'm building ",
+      { text: "Kavach", href: "https://kavach-mu-blush.vercel.app" },
+      ", a fraud-detection platform for Indian users, and learning LLM evaluation properly.",
+    ],
+  ],
+  status: "Open to AI / full-stack roles",
+};
+
+export const sections: SectionMeta[] = [
+  { id: "about", label: "About", title: "About" },
+  { id: "contact", label: "Contact", title: "Contact" },
+  { id: "projects", label: "Projects", title: "Projects" },
+  { id: "experience", label: "Experience", title: "Experience" },
+  { id: "skills", label: "Skills", title: "Skills" },
+  { id: "github", label: "GitHub", title: "GitHub" },
+];
+
+export const ui: UiCopy = {
+  indexLabel: "INDEX",
+  menuLabel: "Menu",
+  closeLabel: "Close",
+  gutterLine: "忍 — ANURAG / AI ENGINEER",
 };
 
 export const experience: Experience[] = [
