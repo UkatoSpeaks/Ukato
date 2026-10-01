@@ -1,23 +1,21 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { Inter, Newsreader } from "next/font/google";
 import { site } from "@/content/data";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  axes: ["opsz"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+// Emphasis words only. Loaded as the variable font because next/font only
+// exposes the opsz axis that way; it is used at its regular (400) weight.
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
   subsets: ["latin"],
-});
-
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument-serif",
-  subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
+  style: "italic",
+  axes: ["opsz"],
 });
 
 export const metadata: Metadata = {
@@ -34,7 +32,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${inter.variable} ${newsreader.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         {/* Without JS the load animation never runs, so show everything. */}
@@ -42,9 +44,7 @@ export default function RootLayout({
           <style>{`[data-fade]{opacity:1!important;transform:none!important}`}</style>
         </noscript>
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} antialiased`}
-      >
+      <body>
         {children}
       </body>
     </html>

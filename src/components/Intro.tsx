@@ -2,9 +2,7 @@ import { intro, type IntroPart } from "@/content/data";
 
 function Part({ part }: { part: IntroPart }) {
   if (typeof part === "string") return part;
-  if ("em" in part) {
-    return <em className="font-serif text-[1.15em] leading-none text-ink">{part.em}</em>;
-  }
+  if ("em" in part) return <em className="emph">{part.em}</em>;
   if (!part.href) return <span className="text-ink">{part.text}</span>;
   return (
     <a href={part.href} target="_blank" rel="noreferrer" className="link">
