@@ -10,8 +10,8 @@ const SPEED = 120;
 /** The record: center dot and label, groove rings, and a soft sheen that makes
     the turning visible. Dark on both themes. */
 const DISC = [
-  "radial-gradient(circle, #e5e5e5 0 2.5px, #1a1a1a 3px 17px, transparent 17.5px)",
-  "repeating-radial-gradient(circle, transparent 0 4px, rgb(255 255 255 / 0.07) 4.5px 5px)",
+  "radial-gradient(circle, #e5e5e5 0 2.5px, #1a1a1a 3px 14px, transparent 14.5px)",
+  "repeating-radial-gradient(circle, transparent 0 3px, rgb(255 255 255 / 0.07) 3.5px 4px)",
   "conic-gradient(from 30deg, transparent, rgb(255 255 255 / 0.09) 25deg, transparent 50deg 180deg, rgb(255 255 255 / 0.09) 205deg, transparent 230deg)",
   "#111111",
 ].join(", ");
@@ -94,33 +94,34 @@ export function NowPlaying({ src }: Props) {
         />
       )}
 
-      <div aria-hidden className="relative h-[124px] w-[132px] shrink-0">
+      <div aria-hidden className="relative h-[104px] w-[110px] shrink-0">
         <div
           ref={disc}
-          className="absolute bottom-0 left-0 size-[120px] rounded-full border border-white/10"
+          className="absolute bottom-0 left-0 size-[100px] rounded-full border border-white/10"
           style={{ background: DISC }}
         />
 
-        {/* Tonearm: pivots at its head, top right, and swings onto the record. */}
-        <svg viewBox="0 0 132 124" className="absolute inset-0 size-full">
+        {/* Tonearm: pivots at its head, top right. It rests on the outer part
+            of the record and moves further in while playing. */}
+        <svg viewBox="0 0 110 104" className="absolute inset-0 size-full">
           <g
             className="transition-transform duration-700 ease-in-out motion-reduce:transition-none"
             style={{
-              transformOrigin: "122px 8px",
-              transform: `rotate(${playing ? 28 : 8}deg)`,
+              transformOrigin: "102px 6px",
+              transform: `rotate(${playing ? 35 : 25}deg)`,
             }}
           >
             <line
-              x1="122"
-              y1="8"
-              x2="122"
-              y2="68"
+              x1="102"
+              y1="6"
+              x2="102"
+              y2="56"
               stroke="var(--muted)"
               strokeWidth="1.5"
               strokeLinecap="round"
             />
-            <circle cx="122" cy="68" r="2.5" fill="var(--muted)" />
-            <circle cx="122" cy="8" r="4" fill="var(--muted)" />
+            <circle cx="102" cy="56" r="2.5" fill="var(--muted)" />
+            <circle cx="102" cy="6" r="4" fill="var(--muted)" />
           </g>
         </svg>
       </div>
@@ -128,15 +129,15 @@ export function NowPlaying({ src }: Props) {
       <div className="min-w-0 flex-1">
         <p className="label">{nowPlaying.label}</p>
 
-        <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-8">
-          <div className="min-w-0 sm:w-52">
+        <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-16">
+          <div className="min-w-0">
             <p className="truncate text-[17px] font-bold text-text">{title}</p>
             <p className="mt-1.5 truncate font-mono text-xs tracking-normal text-muted">
               {artist}
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2">
             <button
               type="button"
               aria-label="Previous track"

@@ -181,7 +181,7 @@ export const sections: SiteSection[] = [
     id: "projects",
     title: "Projects",
     indexLabel: "Projects",
-    action: "View all",
+    action: "View All Projects",
   },
   { id: "experience", title: "Experience", indexLabel: "Experience" },
   { id: "skills", title: "Tech Stack", indexLabel: "Skills" },
@@ -544,6 +544,22 @@ export const projects: Project[] = [
     ],
   },
 ];
+
+/** Labels on the projects page and the case-study pages. */
+export const projectLabels = {
+  back: "Back",
+  live: "Live",
+  code: "GitHub",
+  problem: "Problem",
+  approach: "How it works",
+  flow: "Flow",
+  next: "Next project",
+  status: {
+    live: "Live",
+    building: "In progress",
+    shipped: "Shipped",
+  } satisfies Record<ProjectStatus, string>,
+};
 
 export const experience: Experience[] = [
   {

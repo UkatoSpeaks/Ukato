@@ -1,20 +1,31 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Menu, Search, X } from "lucide-react";
-import { navLinks, profile, sections } from "@/content/data";
+import { navLinks, profile, sections, type SectionId } from "@/content/data";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useActiveSection } from "@/hooks/useActiveSection";
 
 const ids = sections.map((s) => s.id);
+const none: string[] = [];
 
-export function Nav() {
+type Props = {
+  /** Set on pages other than home: the section whose link stays active. The
+      links then lead back to the home page. */
+  page?: SectionId;
+};
+
+export function Nav({ page }: Props = {}) {
   const [open, setOpen] = useState(false);
-  const active = useActiveSection(ids);
+  const spied = useActiveSection(page ? none : ids);
+  const active = page ?? spied;
+  const base = page ? "/" : "";
+  const top = page ? "/" : "#top";
 
   const links = navLinks.map((link) => ({
     label: link.label,
-    href: link.section ? `#${link.section}` : "#top",
+    href: link.section ? `${base}#${link.section}` : top,
     // Above the first section, the link without one (Home) is active.
     current:
       active === null
@@ -26,20 +37,20 @@ export function Nav() {
   return (
     <header className="sticky top-0 z-20 bg-bg/85 backdrop-blur">
       <div className="col flex h-[51px] items-center justify-between gap-6 border-x border-dashed border-border px-4 sm:px-8">
-        <a href="#top" className="flex items-baseline gap-2.5">
+        <Link href={top} className="flex items-baseline gap-2.5">
           <span className="font-display text-xl leading-none text-text">
             {profile.shortName}
           </span>
           <span className="font-mono text-[11px] tracking-[0.04em] text-faint">
             {profile.pronunciation}
           </span>
-        </a>
+        </Link>
 
         <nav className="flex items-center gap-3" aria-label="Main">
           <ul className="mr-2 hidden items-center gap-6 md:flex">
             {links.map((link) => (
               <li key={link.label}>
-                <a
+                <Link
                   href={link.href}
                   aria-current={link.current ? "true" : undefined}
                   className={`border-b pb-1 text-sm font-semibold transition-colors duration-200 hover:text-text ${
@@ -49,7 +60,7 @@ export function Nav() {
                   }`}
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -81,7 +92,7 @@ export function Nav() {
           <ul className="col border-x border-dashed border-border px-4 py-2 sm:px-8">
             {links.map((link) => (
               <li key={link.label}>
-                <a
+                <Link
                   href={link.href}
                   onClick={() => setOpen(false)}
                   aria-current={link.current ? "true" : undefined}
@@ -90,7 +101,7 @@ export function Nav() {
                   }`}
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

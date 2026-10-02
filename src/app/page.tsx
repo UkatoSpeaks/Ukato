@@ -1,9 +1,13 @@
-import { profile, sections } from "@/content/data";
+import Link from "next/link";
+import { ChevronRight } from "lucide-react";
+import { projects, sections } from "@/content/data";
 import { About } from "@/components/About";
 import { Contact } from "@/components/Contact";
+import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/Hero";
 import { Nav } from "@/components/Nav";
 import { PageShell } from "@/components/PageShell";
+import { ProjectGrid } from "@/components/ProjectGrid";
 import { Section } from "@/components/Section";
 import { SideIndex } from "@/components/SideIndex";
 
@@ -22,6 +26,8 @@ function Placeholder({ title }: { title: string }) {
   );
 }
 
+const featured = projects.filter((p) => p.featured);
+
 export default function Home() {
   return (
     <PageShell>
@@ -37,13 +43,26 @@ export default function Home() {
             key={s.id}
             id={s.id}
             title={s.title}
-            action={s.action}
+            action={
+              s.id === "projects" && s.action ? (
+                <Link href="/projects" className="btn group">
+                  {s.action}
+                  <ChevronRight
+                    size={14}
+                    strokeWidth={1.75}
+                    className="transition-transform duration-[250ms] group-hover:translate-x-0.5 motion-reduce:transform-none"
+                  />
+                </Link>
+              ) : undefined
+            }
             flush={s.id === "contact"}
           >
             {s.id === "about" ? (
               <About />
             ) : s.id === "contact" ? (
               <Contact />
+            ) : s.id === "projects" ? (
+              <ProjectGrid projects={featured} />
             ) : (
               <Placeholder title={s.title} />
             )}
@@ -51,13 +70,7 @@ export default function Home() {
         ))}
       </main>
 
-      <footer>
-        <div className="rule" />
-        <div className="col flex items-center justify-between gap-6 px-4 py-8 sm:px-8">
-          <p className="label">© 2026 {profile.name}</p>
-          <p className="label">{profile.location}</p>
-        </div>
-      </footer>
+      <Footer />
     </PageShell>
   );
 }

@@ -1,14 +1,13 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion } from "framer-motion";
 
 type Props = {
   steps: string[];
-  /** Seconds to wait before the first node, so it follows the section fade. */
-  delay?: number;
 };
 
-export function Flow({ steps, delay = 0 }: Props) {
+/** Pipeline steps joined by arrows. The last one takes the --accent border. */
+export function Flow({ steps }: Props) {
   const reduce = useReducedMotion();
 
   return (
@@ -18,13 +17,10 @@ export function Flow({ steps, delay = 0 }: Props) {
           key={i}
           data-fade
           className="flex flex-col items-start sm:flex-row sm:items-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={
-            reduce
-              ? { duration: 0 }
-              : { duration: 0.4, delay: delay + i * 0.06 }
-          }
+          initial={reduce ? false : { opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: reduce ? 0 : 0.15 + i * 0.06 }}
         >
           {i > 0 && (
             <svg
@@ -35,14 +31,14 @@ export function Flow({ steps, delay = 0 }: Props) {
               fill="none"
               stroke="currentColor"
               strokeWidth="1"
-              className="my-2 ml-3 rotate-90 text-ink-3 sm:mx-1.5 sm:my-0 sm:rotate-0"
+              className="my-2 ml-3 rotate-90 text-faint sm:mx-1.5 sm:my-0 sm:rotate-0"
             >
               <path d="M0 4h15M12 1.5 15 4l-3 2.5" />
             </svg>
           )}
           <span
-            className={`rounded-md border px-2.5 py-1 text-[13px] leading-normal text-ink ${
-              i === steps.length - 1 ? "border-seal" : "border-line"
+            className={`rounded-md border bg-surface px-2.5 py-1 font-mono text-xs tracking-normal text-text ${
+              i === steps.length - 1 ? "border-(--accent)" : "border-border"
             }`}
           >
             {step}

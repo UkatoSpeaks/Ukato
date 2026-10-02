@@ -12,10 +12,10 @@ export function About() {
     <div>
       <ul className="space-y-4">
         {about.bullets.map((bullet) => (
-          <li key={bullet} className="flex gap-3 text-[15px] text-muted">
+          <li key={bullet} className="flex gap-3 text-base text-text">
             <span
               aria-hidden
-              className="mt-[0.8em] size-[3px] shrink-0 rounded-full bg-faint"
+              className="mt-[0.75em] size-[3px] shrink-0 rounded-full bg-faint"
             />
             {bullet}
           </li>

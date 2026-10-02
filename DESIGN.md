@@ -23,7 +23,7 @@ Dark by default, with a light theme behind the toggle in the nav.
 - Tokens are CSS variables in `src/app/globals.css`, exposed to Tailwind through `@theme inline` (`bg-bg`, `text-muted`, `border-border`, ...).
 - `<html>` ships with the `dark` class. A pre-paint script in `src/app/layout.tsx` removes it when `localStorage.theme === "light"`. `ThemeToggle` flips the class and saves the choice.
 - The light values are not part of the original spec; they were picked to mirror the dark set.
-- The old washi names (`paper`, `ink`, `line`, `seal`) are aliased to the new tokens so the case-study pages keep rendering. Remove them once those pages are rebuilt.
+- The old washi names (`paper`, `ink`, `line`, `seal`) are still aliased to the new tokens. The case-study pages no longer use them; only unused pre-redesign components do.
 
 ## Layout
 
@@ -57,13 +57,13 @@ The banner and avatar are original SVG drawings in `public/`: greys only, screen
 
 ## About
 
-`About`: the bullets from `about.bullets` in 15px `muted` text, each with a 3px `faint` dot, 16px apart.
+`About`: the bullets from `about.bullets` in 16px `text`, each with a 3px `faint` dot, 16px apart.
 
 Below them, `NowPlaying`:
 
-- Left: a 120px vinyl record drawn in CSS gradients (dark disc, groove rings, light center dot, a soft sheen) and an SVG tonearm pivoting at its round head, top right.
-- While playing the record turns once every 3s and the tonearm swings onto it. On pause the record coasts to a stop and the arm swings back. With `prefers-reduced-motion` the record does not spin.
-- Right: the `label` line, the track title in bold, the artist in mono, then previous (bare icon), play/pause (52px round bordered button) and next (bare icon). Below `sm` the controls sit under the title.
+- Left: a 100px vinyl record drawn in CSS gradients (dark disc, groove rings, light center dot, a soft sheen) and an SVG tonearm pivoting at its round head, top right.
+- At rest the tonearm leans onto the outer part of the record. While playing the record turns once every 3s and the arm moves 10 degrees further in. On pause the record coasts to a stop and the arm swings back. With `prefers-reduced-motion` the record does not spin.
+- Right: the `label` line, the track title in bold, the artist in mono, then previous (bare icon), play/pause (52px round bordered button) and next (bare icon). The title block is as wide as its text and the controls follow 64px after it. Below `sm` the controls sit under the title.
 - A 2px progress bar across the right side; clicking it seeks.
 - The track is an `<audio>` element on `nowPlaying.audioSrc`. With a TODO title, a missing file or a load error, the play button is disabled and `nowPlaying.empty` is shown instead of the title and artist.
 - There is one track, so previous and next both restart it.
@@ -76,6 +76,26 @@ Below them, `NowPlaying`:
 - Hover: the cell turns `surface-2`, the arrow moves 2px up and right, and the icon takes its brand color (LinkedIn `#0a66c2`, Mail `#ea4335`, Resume `#22c55e`; GitHub and X take `text`, which is white on dark).
 - Mail is a `mailto:` link; the others open in a new tab. The Resume cell is hidden until `public/resume.pdf` exists.
 - Below `md`: two columns, with an odd last cell spanning both.
+
+## Projects
+
+Each project has an `accentColor`. It is set as `--accent` on the card or the case-study page and used for small highlights only.
+
+- Header action on the home page: a `btn` (bordered, 8px radius, 12px mono) reading "View All Projects" with a chevron that moves right on hover. It links to `/projects`.
+- `ProjectGrid`: two columns from `md`, one below, 20px gap. The home page shows the featured projects; `/projects` shows all of them, featured first.
+- `ProjectCard`: `card` with 24px padding.
+  - `ProjectCover` on top: 16:10, 8px radius, 1px border, the screenshot in full colour. Without an image: a gradient from the accent (22%) to `surface`, the hatch, and the title in the display font.
+  - The first card in a grid has a viewfinder over its image: white corner brackets 12px in, a pulsing red dot with "REC", "ISO 400", and a dark vignette.
+  - Title in Geist bold 18px, with the year in mono on the right after a 6px accent dot. Description in 15px `muted`, clamped to 4 lines.
+  - A divider, then tag chips on the left and the live (globe) and GitHub icons on the right. An icon is hidden when its URL is a TODO.
+  - Chips are tinted (`chip-accent`): accent at 8% for the background and 25% for the border.
+  - Hover (`card-accent`, 250ms): accent border, a glow (`0 0 0 1px` accent, `0 8px 30px` accent at 15%), a 2px lift, and the image at 1.03.
+  - The title link covers the whole card and opens `/projects/[slug]`; the two icon links sit above it.
+  - Cards fade up with `Reveal`, the right column 80ms after the left.
+- `/projects`: the shell and nav, a "Projects" band as the page title with a "← Back" `btn` to the home page, then the grid.
+- `/projects/[slug]`: the shell and nav, then a Back `btn` to `/projects`, the cover, the title in the display font at 40px, a mono line (accent dot, year, status, category), the description, tinted chips, and Live / GitHub `btn`s that take the accent on hover. Problem, How it works and Flow follow as `Section` bands, with accent dots on the bullets and an accent border on the last flow step. A "Next project" row closes the page.
+- On these pages `Nav` gets `page="projects"`: Projects stays active and the links lead back to the home page sections.
+- The labels for these pages are in `projectLabels`.
 
 ## Side index
 

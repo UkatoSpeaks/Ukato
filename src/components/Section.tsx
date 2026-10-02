@@ -8,22 +8,31 @@ type Props = {
   action?: React.ReactNode;
   /** Content runs edge to edge in the column, with no padding. */
   flush?: boolean;
+  /** "h1" when the band is the page title. */
+  heading?: "h1" | "h2";
   children: React.ReactNode;
 };
 
-export function Section({ id, title, action, flush, children }: Props) {
+export function Section({
+  id,
+  title,
+  action,
+  flush,
+  heading: Heading = "h2",
+  children,
+}: Props) {
   return (
     <section id={id} aria-labelledby={`${id}-title`} className="scroll-mt-14">
       <div className="rule" />
       <div className="hatch">
         <div className="col flex h-14 items-center justify-between gap-6 bg-bg px-4 sm:px-8">
-          <h2
+          <Heading
             id={`${id}-title`}
             className="font-display text-[26px] leading-none tracking-normal text-text"
           >
             {title}
-          </h2>
-          {action && <div className="label shrink-0">{action}</div>}
+          </Heading>
+          {action && <div className="shrink-0">{action}</div>}
         </div>
       </div>
       <div className="rule" />
