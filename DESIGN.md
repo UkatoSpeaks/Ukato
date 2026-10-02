@@ -18,13 +18,14 @@ Dark by default, with a light theme behind the toggle in the nav.
 | `--text`      | `#f5f5f5`                | `#171717`          | `text`      | Titles, strong text |
 | `--soft`      | `#c4c4c4`                | `#3d3d3d`          | `soft`      | Longer copy that should read brighter than `muted` |
 | `--muted`     | `#a1a1a1`                | `#5c5c5c`          | `muted`     | Body copy, nav links |
-| `--faint`     | `#737373`                | `#8c8c8c`          | `faint`     | Mono labels, meta, rule dots |
+| `--faint`     | `#858585`                | `#6b6b6b`          | `faint`     | Mono labels, meta, rule dots |
 
 - The border is 10% white, not a fixed grey, so it reads `#232323` on the page and gets lighter on cards and chips, as in the screenshots.
 - Tokens are CSS variables in `src/app/globals.css`, exposed to Tailwind through `@theme inline` (`bg-bg`, `text-muted`, `border-border`, ...).
 - `<html>` ships with the `dark` class. A pre-paint script in `src/app/layout.tsx` removes it when `localStorage.theme === "light"`. `ThemeToggle` flips the class and saves the choice.
 - The light values are not part of the original spec; they were picked to mirror the dark set.
-- The old washi names (`paper`, `ink`, `line`, `seal`) are still aliased to the new tokens. The case-study pages no longer use them; only unused pre-redesign components do.
+- `faint` is the dimmest text color and still meets 4.5:1 on the page background in both themes.
+- Focus: a 2px ring in `text` at 60%, 2px outside the element, on every interactive element (`:focus-visible`, in the base layer). A project card shows the ring around the whole card.
 
 ## Layout
 
@@ -33,7 +34,7 @@ Measured from the inspiration screenshots in `design-ref/` (not committed). They
 - A centered content column, 760px wide (`--col`), with 32px inner padding (`sm:px-8`; 16px below `sm`). 1px dashed vertical lines in the border color run down its left and right edges for the full page height.
 - Nav (`Nav`): sticky, blurred page background, 52px tall including its bottom line. The nav line is plain, with no dot markers.
   - Left: the short name in the display font at 20px, then the pronunciation in 11px mono, `faint`.
-  - Right: four links from `navLinks` (Home, Projects, Experience, Contact) in Geist 14px semibold. The active one is `text` with a 1px underline, the rest `muted`. One link is always active: Home covers the hero and About, and Experience also covers Tech Stack and GitHub Activity (`covers` in `navLinks`). Then a round search button (no action yet; it will open the command palette) and the round theme toggle.
+  - Right: four links from `navLinks` (Home, Projects, Experience, Contact) in Geist 14px semibold. The active one is `text` with a 1px underline, the rest `muted`. One link is always active: Home covers the hero and About, and Experience also covers Tech Stack and GitHub Activity (`covers` in `navLinks`). Then a round search button that opens the command palette, and the round theme toggle.
   - Below `md` the links collapse into a menu opened by a third round button.
 - Round icon buttons (`icon-btn` utility): 32px, 1px border, `muted` icon that brightens on hover.
 - Full-width 1px horizontal lines between sections. Each has a 4px dot in `faint` centred on the page edge at both ends, so half of each dot shows.
@@ -50,7 +51,7 @@ In code:
 
 - Banner: `profile.banner`, 4:1, 12px radius, 1px border, inset 12px from the column lines. On hover it scales to 1.03 over 1.2s.
 - Row below, 28px under the banner: the avatar (`profile.avatar`, 80px square, 12px radius, 1px border), then the name in the display font at 40px with -0.04em tracking, the role in 13px mono, and the location in 11px mono with a map-pin icon.
-- Right of the row: a bare star icon linking to GitHub (`muted`, brightening on hover) and a button with a search icon and "⌘K" (8px radius, no action yet).
+- Right of the row: a bare star icon linking to GitHub (`muted`, brightening on hover) and a button with a search icon and "⌘K" (8px radius) that opens the command palette.
 - Below `sm` the avatar stacks above the name and the two buttons move underneath.
 - If an image file is missing, its frame stays as a plain `surface-2` block.
 
@@ -113,7 +114,7 @@ Each project has an `accentColor`. It is set as `--accent` on the card or the ca
 - `Stats`, 48px below: one `card` split into four equal cells with 1px dividers, inset 16px top and bottom. Below `md` it is two rows of two with full dividers.
   - Value in Geist bold 20px, label under it in the `label` style, `muted`.
   - When the bar scrolls into view, values that start with a number count up from 0 over 1s (ease-out); other values fade in.
-  - The first three cells are `stats`. The fourth is the last year of GitHub contributions as "N+", from `getContributions` in `src/lib/github.ts` (jogruber contributions API, fetched on the server and revalidated once a day). If that fails, `contributionsStat.fallback` is shown instead.
+  - The first three cells are `stats`. The fourth is this calendar year's GitHub contributions with the label "Contributions in YEAR", the same number as under the heatmap, from `getContributions` in `src/lib/github.ts` (jogruber contributions API, fetched on the server and revalidated once a day). If that fails, `contributionsStat.fallback` is shown instead.
 
 ## Tech Stack
 
@@ -134,10 +135,11 @@ Each project has an `accentColor`. It is set as `--accent` on the card or the ca
 
 - Data: `getContributions(username, year)` in `src/lib/github.ts` (jogruber contributions API), fetched on the server for this year and the two before it and revalidated once a day.
 - Year tabs, right-aligned above the graph: the active one is a pill in `text` with `bg`-colored text, the others bordered and `muted`.
-- `ContributionGraph`: the whole year as 7 rows (Sunday on top) by 53 week columns of squares with 2px radius and a 3px gap, with mono month labels above the column holding the 1st of each month. Squares are 10px from `md`, so the year fits the column, and 11px below.
+- `ContributionGraph`: the whole year as 7 rows (Sunday on top) by 53 week columns of squares with 3px radius and a 3px gap, with mono month labels above the column holding the 1st of each month. Squares are 10px from `md`, so the year fits the column, and 11px below.
 - Colors (`--gh-0` to `--gh-4`): level 0 is `surface-2`; then `#0e4429`, `#006d32`, `#26a641`, `#39d353` on dark and `#9be9a8`, `#40c463`, `#30a14e`, `#216e39` on light.
 - Hovering a square shows "N contributions on Mon D, YYYY" in a mono tooltip above it. The grid as a whole links to the GitHub profile in a new tab.
-- Below: "N contributions in YEAR" on the left, and the "Less ... More" legend on the right.
+- Days of the current year that are still to come are drawn at 40% opacity.
+- Below the grid: the "Less ... More" legend on its own row, right-aligned, then "N contributions in YEAR" on the left.
 - When the section scrolls into view the week columns fade in from left to right, about 600ms in all. Not with `prefers-reduced-motion`.
 - Below `md` the grid scrolls sideways with the scrollbar hidden, and starts at the most recent weeks: the current week this year, the end of the year for earlier ones.
 - Loading (`Suspense`): the same grid in pulsing level-0 squares. If a year cannot be loaded: `github.error` and the profile link in place of the grid.
@@ -186,7 +188,31 @@ Instrument Serif was checked against the screenshots and kept. For "About", the 
 - Cards: about 12px radius, `surface` background (`card` utility, `--radius-card`).
 - Chips: 4px radius, `surface-2` background, Geist Mono 10px, about 21px tall (`chip` utility, `--radius-chip`).
 
+## Command palette
+
+`CommandPalette`, mounted once in the root layout, so it works on every page.
+
+- Opens with ⌘K / Ctrl+K and with the nav and hero search buttons (`PaletteTrigger`). Closes with Esc or a click on the backdrop.
+- A dialog up to 560px wide, 12px radius, 1px border, `surface`, over a blurred dark backdrop; it fades and scales in over 160ms.
+- Search input on top, focused on open. Below, results in groups with `label` headings: Sections (scroll to the section, or go to `/#id` from another page), Projects (every project with its accent dot, to its case-study page), Links (GitHub, LinkedIn, X, copy email with a "Copied" toast, Resume when the file exists) and Actions (toggle theme).
+- Typing filters fuzzily: a substring match ranks first, then letters in order. Arrow keys move the highlight (`surface-2`), Enter selects, the mouse works too.
+- While open the page does not scroll, Tab stays in the dialog, and focus returns to where it was on close. Roles: `dialog`, `combobox`, `listbox`, `option`.
+- Its strings are in `palette`.
+
+## 404
+
+`src/app/not-found.tsx`: the shell, nav and footer, with "404" as a label, the title in the display font at 40px, a `muted` line and a `btn` back to the home page. Strings in `notFound`.
+
+## Metadata and sharing
+
+- `site` in `data.ts` holds the title, the description and the deployed URL. Until the URL is filled in, absolute URLs (canonical, Open Graph, sitemap) use `http://localhost:3000` (`src/lib/site.ts`).
+- Each page sets its canonical URL; case-study pages have their own title and description.
+- Link previews (`opengraph-image.tsx`, `twitter-image.tsx`, built with `next/og` in `src/lib/og.tsx`): 1200×630, dark, hatch pattern around a bordered panel. The site image has the avatar, the name in Instrument Serif and the role in mono. A case-study image has the project title, year and category, with a dot and a bar in the accent color. Fonts for these are in `src/assets/fonts`.
+- Favicon and apple-touch-icon (`icon.tsx`, `apple-icon.tsx`): an "A" in the display font on the dark background. The avatar is too detailed to read at 32px.
+- `sitemap.ts` lists the home page, `/projects` and every case study; `robots.ts` allows everything.
+
 ## Motion
 
 - Subtle fade-up on scroll with framer-motion: `Reveal` (used by `Section`), 12px rise, 0.5s, once per element.
-- `prefers-reduced-motion` is respected: `Reveal` skips the animation, and smooth scrolling and theme transitions are turned off.
+- `prefers-reduced-motion` is respected everywhere: fade-ups, the record, the marquee, the timeline, the counters, the heatmap fade, the tab pill, the chips and the palette are either off or instant, and smooth scrolling and theme transitions are turned off. Components read the preference with `useReducedMotion` from `src/hooks`, which is safe across hydration.
+- Only the banner image is loaded with priority; the avatar and project images are lazy.

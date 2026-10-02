@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { animate, motion, useInView, useReducedMotion } from "framer-motion";
+import { animate, motion, useInView } from "framer-motion";
 import type { Stat } from "@/content/data";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 /** Borders between cells: one row of four from `md`, two rows of two below. */
 const dividers = [
@@ -60,7 +61,7 @@ export function Stats({ stats }: { stats: Stat[] }) {
       {stats.map((stat, i) => (
         <div
           key={stat.label}
-          className={`flex flex-col-reverse items-center gap-1.5 border-border px-3 py-5 text-center md:my-4 md:py-1 ${dividers[i] ?? ""}`}
+          className={`flex flex-col-reverse items-center justify-end gap-1.5 border-border px-3 py-5 text-center md:my-4 md:py-1 ${dividers[i] ?? ""}`}
         >
           <dt className="label text-muted">{stat.label}</dt>
           <dd className="text-xl leading-tight font-bold text-text">

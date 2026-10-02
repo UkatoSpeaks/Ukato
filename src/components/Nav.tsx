@@ -3,7 +3,14 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Menu, Search, X } from "lucide-react";
-import { navLinks, profile, sections, type SectionId } from "@/content/data";
+import {
+  navLinks,
+  palette,
+  profile,
+  sections,
+  type SectionId,
+} from "@/content/data";
+import { PaletteTrigger } from "@/components/PaletteTrigger";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useActiveSection } from "@/hooks/useActiveSection";
 
@@ -11,15 +18,15 @@ const ids = sections.map((s) => s.id);
 const none: string[] = [];
 
 type Props = {
-  /** Set on pages other than home: the section whose link stays active. The
-      links then lead back to the home page. */
-  page?: SectionId;
+  /** Set on pages other than home: the section whose link stays active, or
+      "none". The links then lead back to the home page. */
+  page?: SectionId | "none";
 };
 
 export function Nav({ page }: Props = {}) {
   const [open, setOpen] = useState(false);
   const spied = useActiveSection(page ? none : ids);
-  const active = page ?? spied;
+  const active = page === "none" ? null : (page ?? spied);
   const base = page ? "/" : "";
   const top = page ? "/" : "#top";
 
@@ -28,10 +35,12 @@ export function Nav({ page }: Props = {}) {
     href: link.section ? `${base}#${link.section}` : top,
     // Above the first section, the link without one (Home) is active.
     current:
-      active === null
-        ? !link.section
-        : link.section === active ||
-          (link.covers ?? []).some((id) => id === active),
+      page === "none"
+        ? false
+        : active === null
+          ? !link.section
+          : link.section === active ||
+            (link.covers ?? []).some((id) => id === active),
   }));
 
   return (
@@ -64,10 +73,9 @@ export function Nav({ page }: Props = {}) {
               </li>
             ))}
           </ul>
-          {/* Will open the command palette. */}
-          <button type="button" aria-label="Search" className="icon-btn">
+          <PaletteTrigger label={palette.label} className="icon-btn">
             <Search size={15} strokeWidth={1.75} />
-          </button>
+          </PaletteTrigger>
           <ThemeToggle className="icon-btn" />
           <button
             type="button"

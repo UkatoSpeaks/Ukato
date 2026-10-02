@@ -2,13 +2,9 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import {
-  motion,
-  useInView,
-  useReducedMotion,
-  useScroll,
-} from "framer-motion";
+import { motion, useInView, useScroll } from "framer-motion";
 import type { ExperiencePoint } from "@/content/data";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 /** A point, with the page its title links to when there is one. */
 type TimelinePoint = ExperiencePoint & { href?: string };
@@ -53,7 +49,7 @@ function Point({ point, still }: { point: TimelinePoint; still: boolean }) {
 /** Points on a vertical line that fills as the list scrolls past. */
 export function Timeline({ points }: { points: TimelinePoint[] }) {
   const ref = useRef<HTMLOListElement>(null);
-  const still = useReducedMotion() ?? false;
+  const still = useReducedMotion();
   // Same 70% mark as the points.
   const { scrollYProgress } = useScroll({
     target: ref,

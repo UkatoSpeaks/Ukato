@@ -11,9 +11,14 @@ import { Stats } from "@/components/Stats";
 import { Timeline } from "@/components/Timeline";
 
 export async function Experience() {
-  const contributions = await getContributions(github.username);
+  // This year's total, as under the heatmap.
+  const year = new Date().getFullYear();
+  const contributions = await getContributions(github.username, year);
   const last: Stat = contributions
-    ? { value: `${contributions.total}+`, label: contributionsStat.label }
+    ? {
+        value: String(contributions.total),
+        label: `${contributionsStat.label} ${year}`,
+      }
     : contributionsStat.fallback;
 
   return (

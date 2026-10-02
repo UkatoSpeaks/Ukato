@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 type Props = {
   steps: string[];
@@ -20,7 +21,9 @@ export function Flow({ steps }: Props) {
           initial={reduce ? false : { opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: reduce ? 0 : 0.15 + i * 0.06 }}
+          transition={
+            reduce ? { duration: 0 } : { duration: 0.4, delay: 0.15 + i * 0.06 }
+          }
         >
           {i > 0 && (
             <svg

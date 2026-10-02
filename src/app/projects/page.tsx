@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { profile, projectLabels, projects, sections } from "@/content/data";
+import {
+  profile,
+  projectLabels,
+  projects,
+  sections,
+  site,
+} from "@/content/data";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 import { PageShell } from "@/components/PageShell";
@@ -9,8 +15,17 @@ import { Section } from "@/components/Section";
 
 const title = sections.find((s) => s.id === "projects")?.title ?? "";
 
+const pageTitle = `${title} — ${profile.name}`;
+
 export const metadata: Metadata = {
-  title: `${title} — ${profile.name}`,
+  title: pageTitle,
+  alternates: { canonical: "/projects" },
+  openGraph: {
+    title: pageTitle,
+    description: site.description,
+    url: "/projects",
+  },
+  twitter: { card: "summary_large_image", title: pageTitle },
 };
 
 // Featured first, then the rest, each in content order.

@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 type Props = {
   className?: string;
@@ -21,7 +22,7 @@ export function Reveal({ className, delay = 0, children }: Props) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "0px 0px -10% 0px" }}
       transition={{
-        duration: 0.5,
+        duration: reduce ? 0 : 0.5,
         delay: reduce ? 0 : delay,
         ease: [0.22, 1, 0.36, 1],
       }}

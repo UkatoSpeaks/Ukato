@@ -2,7 +2,7 @@
 
 import { Moon, Sun } from "lucide-react";
 
-function toggleTheme() {
+export function toggleTheme() {
   const root = document.documentElement;
   root.classList.add("theme-transition");
   const dark = root.classList.toggle("dark");
@@ -14,11 +14,7 @@ function toggleTheme() {
   window.setTimeout(() => root.classList.remove("theme-transition"), 250);
 }
 
-export function ThemeToggle({
-  className = "text-ink-3 transition-colors duration-200 hover:text-ink",
-}: {
-  className?: string;
-}) {
+export function ThemeToggle({ className }: { className?: string }) {
   // Both icons render; the .dark class picks one, so there is no state to
   // hydrate and no flash.
   return (

@@ -5,7 +5,6 @@ type Props = {
   /** Screenshot path; without one a placeholder in the accent color is drawn. */
   src?: string;
   sizes: string;
-  priority?: boolean;
   /** Camera-viewfinder overlay: corner brackets, REC and ISO marks. */
   viewfinder?: boolean;
 };
@@ -21,7 +20,7 @@ const corners = [
  * A project's image in its 16:10 frame. Reads --accent from an ancestor, and
  * zooms when an ancestor `group` is hovered.
  */
-export function ProjectCover({ title, src, sizes, priority, viewfinder }: Props) {
+export function ProjectCover({ title, src, sizes, viewfinder }: Props) {
   return (
     <div className="relative aspect-[16/10] overflow-hidden rounded-lg border border-border bg-surface-2">
       <div className="absolute inset-0 transition-transform duration-[250ms] ease-out group-hover:scale-[1.03] motion-reduce:transform-none">
@@ -31,7 +30,6 @@ export function ProjectCover({ title, src, sizes, priority, viewfinder }: Props)
             alt={`${title} screenshot`}
             fill
             sizes={sizes}
-            priority={priority}
             className="object-cover object-top"
           />
         ) : (
@@ -67,7 +65,7 @@ export function ProjectCover({ title, src, sizes, priority, viewfinder }: Props)
             />
           ))}
           <span className="absolute top-4 left-7 flex items-center gap-1.5">
-            <span className="size-1.5 animate-seal-pulse rounded-full bg-[#ef4444]" />
+            <span className="size-1.5 animate-dot-pulse rounded-full bg-[#ef4444]" />
             REC
           </span>
           <span className="absolute top-4 right-7">ISO 400</span>
