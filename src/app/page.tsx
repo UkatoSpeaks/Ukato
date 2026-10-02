@@ -7,11 +7,11 @@ import { Section } from "@/components/Section";
 // Placeholder sections: the shell only. Real content lands section by section.
 const sections = [
   { id: "about", title: "About" },
-  { id: "experience", title: "Experience" },
-  { id: "projects", title: "Projects", action: "View all" },
-  { id: "stack", title: "Stack" },
-  { id: "recognition", title: "Recognition" },
   { id: "contact", title: "Contact" },
+  { id: "projects", title: "Projects", action: "View all" },
+  { id: "experience", title: "Experience" },
+  { id: "skills", title: "Skills" },
+  { id: "github", title: "GitHub" },
 ];
 
 function Placeholder({ title }: { title: string }) {

@@ -62,7 +62,7 @@ Instrument Serif was checked against the screenshots and kept. For "About", the 
 
 - 1px borders, no heavy shadows.
 - Cards: about 12px radius, `surface` background (`card` utility, `--radius-card`).
-- Chips: about 6px radius, `surface-2` background, Geist Mono 10px, about 21px tall (`chip` utility, `--radius-chip`).
+- Chips: 4px radius, `surface-2` background, Geist Mono 10px, about 21px tall (`chip` utility, `--radius-chip`).
 
 ## Motion
 
