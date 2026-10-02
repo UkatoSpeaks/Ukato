@@ -171,7 +171,7 @@ export type Footer = {
 /** Page metadata and link previews. */
 export const site = {
   /** Where the site is deployed, without a trailing slash. */
-  url: "SITE_URL_TODO",
+  url: "https://ukato.vercel.app",
   title: "Anurag Chaudhary — AI Engineer",
   description:
     "AI Engineer & Full Stack Developer building AI agents, RAG pipelines and full-stack products.",
