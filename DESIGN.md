@@ -65,7 +65,8 @@ Below them, `NowPlaying`:
 - At rest the tonearm leans onto the outer part of the record. While playing the record turns once every 3s and the arm moves 10 degrees further in. On pause the record coasts to a stop and the arm swings back. With `prefers-reduced-motion` the record does not spin.
 - Right: the `label` line, the track title in bold, the artist in mono, then previous (bare icon), play/pause (52px round bordered button) and next (bare icon). The title block is as wide as its text and the controls follow 64px after it. Below `sm` the controls sit under the title.
 - A 2px progress bar across the right side; clicking it seeks.
-- The track is an `<audio>` element on `nowPlaying.audioSrc`. With a TODO title, a missing file or a load error, the play button is disabled and `nowPlaying.empty` is shown instead of the title and artist.
+- A title wider than its box is truncated. While playing it scrolls instead: 2s hold, scroll left at 30px/s to show the end, 2s hold, jump back. With `prefers-reduced-motion` it stays truncated.
+- The track is an `<audio>` element on `nowPlaying.audioSrc` with `preload="none"`, so nothing downloads until play is pressed. With a TODO title, a missing file or a load error, the play button is disabled and `nowPlaying.empty` is shown instead of the title and artist.
 - There is one track, so previous and next both restart it.
 
 ## Contact

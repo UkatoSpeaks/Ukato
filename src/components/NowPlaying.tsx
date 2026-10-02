@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Pause, Play, SkipBack, SkipForward } from "lucide-react";
 import { nowPlaying } from "@/content/data";
 
@@ -15,6 +15,10 @@ const DISC = [
   "conic-gradient(from 30deg, transparent, rgb(255 255 255 / 0.09) 25deg, transparent 50deg 180deg, rgb(255 255 255 / 0.09) 205deg, transparent 230deg)",
   "#111111",
 ].join(", ");
+
+/** Marquee: seconds held at each end, and scroll speed in px per second. */
+const HOLD = 2;
+const SCROLL = 30;
 
 type Props = {
   /** Public path of the track, or undefined when there is nothing to play. */
@@ -31,6 +35,25 @@ export function NowPlaying({ src }: Props) {
   const [progress, setProgress] = useState(0);
 
   const available = src !== undefined && !failed;
+
+  // How far the title overflows its box, in px. Measured again on resize.
+  const titleBox = useRef<HTMLParagraphElement>(null);
+  const [overflow, setOverflow] = useState(0);
+  useEffect(() => {
+    const el = titleBox.current;
+    if (!el) return;
+    const measure = () => setOverflow(el.scrollWidth - el.clientWidth);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [available]);
+
+  // A title that does not fit scrolls while playing: hold, scroll to the end,
+  // hold, jump back. Otherwise it is truncated.
+  const marquee = playing && overflow > 0 && !reduce;
+  const travel = overflow / SCROLL;
+  const cycle = HOLD + travel + HOLD;
 
   // Spin the record. The speed eases towards its target, so the record winds
   // up on play and coasts to a stop on pause.
@@ -82,7 +105,7 @@ export function NowPlaying({ src }: Props) {
         <audio
           ref={audio}
           src={src}
-          preload="metadata"
+          preload="none"
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
           onEnded={() => setProgress(0)}
@@ -131,7 +154,29 @@ export function NowPlaying({ src }: Props) {
 
         <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-16">
           <div className="min-w-0">
-            <p className="truncate text-[17px] font-bold text-text">{title}</p>
+            <p
+              ref={titleBox}
+              className={`text-[17px] font-bold text-text ${
+                marquee ? "overflow-hidden whitespace-nowrap" : "truncate"
+              }`}
+            >
+              {marquee ? (
+                <motion.span
+                  className="inline-block"
+                  animate={{ x: [0, 0, -overflow, -overflow] }}
+                  transition={{
+                    duration: cycle,
+                    times: [0, HOLD / cycle, (HOLD + travel) / cycle, 1],
+                    ease: "linear",
+                    repeat: Infinity,
+                  }}
+                >
+                  {title}
+                </motion.span>
+              ) : (
+                title
+              )}
+            </p>
             <p className="mt-1.5 truncate font-mono text-xs tracking-normal text-muted">
               {artist}
             </p>

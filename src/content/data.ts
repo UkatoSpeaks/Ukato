@@ -643,11 +643,11 @@ export const techStack: TechGroup[] = [
   { category: "DevOps", items: ["Git", "Vercel", "Render"] },
 ];
 
-// The track is not in the repo yet; a royalty-free one will be added.
+// Title and artist are read from the file name of the download; the file has no tags.
 export const nowPlaying: NowPlaying = {
   label: "Now Playing",
-  title: "TITLE_TODO",
-  artist: "ARTIST_TODO",
+  title: "The Guys Cool w/ Everybody",
+  artist: "dmassaiii",
   audioSrc: "/audio/track.mp3",
   empty: { title: "Nothing playing", artist: "—" },
 };
