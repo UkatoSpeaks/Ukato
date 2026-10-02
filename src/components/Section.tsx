@@ -6,26 +6,39 @@ type Props = {
   title: string;
   /** Optional control on the right of the header band, e.g. a "view all" link. */
   action?: React.ReactNode;
+  /** Content runs edge to edge in the column, with no padding. */
+  flush?: boolean;
+  /** "h1" when the band is the page title. */
+  heading?: "h1" | "h2";
   children: React.ReactNode;
 };
 
-export function Section({ id, title, action, children }: Props) {
+export function Section({
+  id,
+  title,
+  action,
+  flush,
+  heading: Heading = "h2",
+  children,
+}: Props) {
   return (
     <section id={id} aria-labelledby={`${id}-title`} className="scroll-mt-14">
       <div className="rule" />
       <div className="hatch">
         <div className="col flex h-14 items-center justify-between gap-6 bg-bg px-4 sm:px-8">
-          <h2
+          <Heading
             id={`${id}-title`}
             className="font-display text-[26px] leading-none tracking-normal text-text"
           >
             {title}
-          </h2>
-          {action && <div className="label shrink-0">{action}</div>}
+          </Heading>
+          {action && <div className="shrink-0">{action}</div>}
         </div>
       </div>
       <div className="rule" />
-      <Reveal className="col px-4 py-8 sm:px-8 md:py-10">{children}</Reveal>
+      <Reveal className={flush ? "col" : "col px-4 py-8 sm:px-8 md:py-10"}>
+        {children}
+      </Reveal>
     </section>
   );
 }

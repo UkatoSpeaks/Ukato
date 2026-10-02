@@ -28,7 +28,7 @@ export function Hero() {
       </div>
 
       <div className="mt-7 flex flex-col gap-5 px-4 sm:flex-row sm:items-center sm:px-8">
-        <div className="relative size-24 shrink-0 overflow-hidden rounded-xl border border-border bg-surface-2">
+        <div className="relative size-20 shrink-0 overflow-hidden rounded-xl border border-border bg-surface-2">
           {avatar && (
             <Image
               src={avatar}
@@ -61,16 +61,16 @@ export function Hero() {
               target="_blank"
               rel="noreferrer"
               aria-label={`${github.label} profile`}
-              className="icon-btn"
+              className="p-1.5 text-muted transition-colors duration-200 hover:text-text"
             >
-              <Star size={15} strokeWidth={1.75} />
+              <Star size={18} strokeWidth={1.75} />
             </a>
           )}
           {/* Will open the command palette. */}
           <button
             type="button"
             aria-label="Search"
-            className="inline-flex h-8 items-center gap-2 rounded-full border border-border bg-surface-2 px-3 font-mono text-[11px] tracking-[0.06em] text-muted transition-colors duration-200 hover:text-text"
+            className="inline-flex h-8 items-center gap-2 rounded-lg border border-border bg-surface-2 px-3 font-mono text-[11px] tracking-[0.06em] text-muted transition-colors duration-200 hover:text-text"
           >
             <Search size={14} strokeWidth={1.75} />
             ⌘K

@@ -49,6 +49,8 @@ export type NavLink = {
   label: string;
   /** Section the link scrolls to. Without one it goes to the top of the page. */
   section?: SectionId;
+  /** Other sections that keep this link active, so one link always is. */
+  covers?: SectionId[];
 };
 
 export type About = {
@@ -144,9 +146,12 @@ export type TechGroup = {
 };
 
 export type NowPlaying = {
+  label: string;
   title: string;
   artist: string;
   audioSrc: string;
+  /** Shown while there is no track to play. */
+  empty: { title: string; artist: string };
 };
 
 export type GitHub = {
@@ -176,7 +181,7 @@ export const sections: SiteSection[] = [
     id: "projects",
     title: "Projects",
     indexLabel: "Projects",
-    action: "View all",
+    action: "View All Projects",
   },
   { id: "experience", title: "Experience", indexLabel: "Experience" },
   { id: "skills", title: "Tech Stack", indexLabel: "Skills" },
@@ -184,9 +189,9 @@ export const sections: SiteSection[] = [
 ];
 
 export const navLinks: NavLink[] = [
-  { label: "Home" },
+  { label: "Home", covers: ["about"] },
   { label: "Projects", section: "projects" },
-  { label: "Experience", section: "experience" },
+  { label: "Experience", section: "experience", covers: ["skills", "github"] },
   { label: "Contact", section: "contact" },
 ];
 
@@ -540,6 +545,22 @@ export const projects: Project[] = [
   },
 ];
 
+/** Labels on the projects page and the case-study pages. */
+export const projectLabels = {
+  back: "Back",
+  live: "Live",
+  code: "GitHub",
+  problem: "Problem",
+  approach: "How it works",
+  flow: "Flow",
+  next: "Next project",
+  status: {
+    live: "Live",
+    building: "In progress",
+    shipped: "Shipped",
+  } satisfies Record<ProjectStatus, string>,
+};
+
 export const experience: Experience[] = [
   {
     role: "AI Engineer Intern",
@@ -622,11 +643,13 @@ export const techStack: TechGroup[] = [
   { category: "DevOps", items: ["Git", "Vercel", "Render"] },
 ];
 
-// The track is not in the repo yet; a royalty-free one will be added.
+// Title and artist are read from the file name of the download; the file has no tags.
 export const nowPlaying: NowPlaying = {
-  title: "TITLE_TODO",
-  artist: "ARTIST_TODO",
+  label: "Now Playing",
+  title: "The Guys Cool w/ Everybody",
+  artist: "dmassaiii",
   audioSrc: "/audio/track.mp3",
+  empty: { title: "Nothing playing", artist: "—" },
 };
 
 export const github: GitHub = {
