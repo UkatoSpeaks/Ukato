@@ -1,11 +1,9 @@
 import { profile, sections } from "@/content/data";
+import { Hero } from "@/components/Hero";
 import { Nav } from "@/components/Nav";
 import { PageShell } from "@/components/PageShell";
-import { Reveal } from "@/components/Reveal";
 import { Section } from "@/components/Section";
-
-// The top nav keeps the short labels for now.
-const navItems = sections.map((s) => ({ id: s.id, title: s.indexLabel }));
+import { SideIndex } from "@/components/SideIndex";
 
 // Placeholder content: the shell only. Real content lands section by section.
 function Placeholder({ title }: { title: string }) {
@@ -25,15 +23,11 @@ function Placeholder({ title }: { title: string }) {
 export default function Home() {
   return (
     <PageShell>
-      <Nav items={navItems} />
-
-      <Reveal className="col px-8 py-12 md:py-16">
-        <p className="label">{profile.role}</p>
-        <h1 className="mt-3 font-display text-[40px] leading-none tracking-[-0.04em] text-text">
-          {profile.name}
-        </h1>
-        <p className="mt-4 max-w-[52ch] text-muted">{profile.tagline}</p>
-      </Reveal>
+      <Nav />
+      <SideIndex />
+      <div id="top">
+        <Hero />
+      </div>
 
       <main>
         {sections.map((s) => (
@@ -45,7 +39,7 @@ export default function Home() {
 
       <footer>
         <div className="rule" />
-        <div className="col flex items-center justify-between gap-6 px-8 py-8">
+        <div className="col flex items-center justify-between gap-6 px-4 py-8 sm:px-8">
           <p className="label">© 2026 {profile.name}</p>
           <p className="label">{profile.location}</p>
         </div>

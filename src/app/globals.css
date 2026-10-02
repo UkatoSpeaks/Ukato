@@ -182,6 +182,27 @@ body {
   color: var(--faint);
 }
 
+/* Round bordered icon button, as in the nav and hero. */
+@utility icon-btn {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  color: var(--muted);
+  transition:
+    color 200ms ease,
+    background-color 200ms ease;
+
+  &:hover {
+    color: var(--text);
+    background: var(--surface-2);
+  }
+}
+
 @utility card {
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
