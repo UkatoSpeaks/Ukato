@@ -68,7 +68,7 @@ export function ProjectCard({ project, viewfinder, priority }: Props) {
               aria-label={`${project.title}: ${projectLabels.live}`}
               className={iconLink}
             >
-              <Globe size={17} strokeWidth={1.75} />
+              <Globe size={18} strokeWidth={1.75} />
             </a>
           )}
           {!isTodo(project.githubUrl) && (
@@ -79,7 +79,7 @@ export function ProjectCard({ project, viewfinder, priority }: Props) {
               aria-label={`${project.title}: ${projectLabels.code}`}
               className={iconLink}
             >
-              <FaGithub size={17} />
+              <FaGithub size={18} />
             </a>
           )}
         </div>

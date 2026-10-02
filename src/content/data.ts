@@ -108,8 +108,14 @@ export type Experience = {
   start: string;
   end: string;
   summary: string;
-  points: string[];
+  points: ExperiencePoint[];
   href?: string;
+};
+
+export type ExperiencePoint = {
+  /** Short heading on the timeline. */
+  title: string;
+  detail: string;
 };
 
 export type Education = {
@@ -130,6 +136,12 @@ export type Achievement = {
 export type Stat = {
   value: string;
   label: string;
+};
+
+/** The stat filled in from GitHub, and what replaces it if that fails. */
+export type ContributionsStat = {
+  label: string;
+  fallback: Stat;
 };
 
 export type TechCategory =
@@ -561,7 +573,22 @@ export const projectLabels = {
   } satisfies Record<ProjectStatus, string>,
 };
 
+// Most recent first.
 export const experience: Experience[] = [
+  {
+    role: "AI Engineer & Full-Stack Developer",
+    company: "Independent Builder",
+    start: "2026",
+    end: "Present",
+    summary:
+      "Building AI products on my own, from the agent and model logic through to the web app.",
+    points: [
+      {
+        title: "Shipping Products",
+        detail: "Shipping Kavach, ApplyAI, Debugly and TacticLens end-to-end.",
+      },
+    ],
+  },
   {
     role: "AI Engineer Intern",
     company: "Tsole Technologies",
@@ -571,19 +598,19 @@ export const experience: Experience[] = [
     summary:
       "Worked on backend services, LLM agent workflows and retrieval pipelines.",
     points: [
-      "Built FastAPI and PostgreSQL backends.",
-      "Built LangGraph/LangChain agent workflows.",
-      "Built RAG pipelines with ChromaDB.",
+      {
+        title: "Backend Services",
+        detail: "Built FastAPI and PostgreSQL backends.",
+      },
+      {
+        title: "Agent Workflows",
+        detail: "Built LangGraph/LangChain agent workflows.",
+      },
+      {
+        title: "RAG Pipelines",
+        detail: "Built RAG pipelines with ChromaDB.",
+      },
     ],
-  },
-  {
-    role: "AI Engineer & Full-Stack Developer",
-    company: "Independent Builder",
-    start: "2026",
-    end: "Present",
-    summary:
-      "Building AI products on my own, from the agent and model logic through to the web app.",
-    points: ["Shipping Kavach, ApplyAI, Debugly and TacticLens end-to-end."],
   },
 ];
 
@@ -616,8 +643,16 @@ export const stats: Stat[] = [
   { value: "6+", label: "Projects shipped" },
   { value: "AI+Web", label: "Stack focus" },
   { value: "1", label: "Internship" },
-  { value: "COMMITS_TODO", label: "GitHub commits" },
 ];
+
+// Shown after `stats`. The value is the last year of GitHub contributions.
+export const contributionsStat: ContributionsStat = {
+  label: "Contributions",
+  fallback: {
+    value: String(projects.filter((p) => p.featured).length),
+    label: "Featured projects",
+  },
+};
 
 export const techStack: TechGroup[] = [
   {

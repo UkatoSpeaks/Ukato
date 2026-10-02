@@ -64,7 +64,7 @@ Below them, `NowPlaying`:
 - Left: a 100px vinyl record drawn in CSS gradients (dark disc, groove rings, light center dot, a soft sheen) and an SVG tonearm pivoting at its round head, top right.
 - At rest the tonearm leans onto the outer part of the record. While playing the record turns once every 3s and the arm moves 10 degrees further in. On pause the record coasts to a stop and the arm swings back. With `prefers-reduced-motion` the record does not spin.
 - Right: the `label` line, the track title in bold, the artist in mono, then previous (bare icon), play/pause (52px round bordered button) and next (bare icon). The title block is as wide as its text and the controls follow 64px after it. Below `sm` the controls sit under the title.
-- A 2px progress bar across the right side; clicking it seeks.
+- A 2px progress bar across the right side; clicking it seeks. A click before the first play loads the track, seeks there and starts playing.
 - A title wider than its box is truncated. While playing it scrolls instead: 2s hold, scroll left at 30px/s to show the end, 2s hold, jump back. With `prefers-reduced-motion` it stays truncated.
 - The track is an `<audio>` element on `nowPlaying.audioSrc` with `preload="none"`, so nothing downloads until play is pressed. With a TODO title, a missing file or a load error, the play button is disabled and `nowPlaying.empty` is shown instead of the title and artist.
 - There is one track, so previous and next both restart it.
@@ -82,7 +82,7 @@ Below them, `NowPlaying`:
 
 Each project has an `accentColor`. It is set as `--accent` on the card or the case-study page and used for small highlights only.
 
-- Header action on the home page: a `btn` (bordered, 8px radius, 12px mono) reading "View All Projects" with a chevron that moves right on hover. It links to `/projects`.
+- Header action on the home page: a `btn` (bordered, 8px radius, mono, 13px here and 12px elsewhere) reading "View All Projects" with a chevron that moves right on hover. It links to `/projects`.
 - `ProjectGrid`: two columns from `md`, one below, 20px gap. The home page shows the featured projects; `/projects` shows all of them, featured first.
 - `ProjectCard`: `card` with 24px padding.
   - `ProjectCover` on top: 16:10, 8px radius, 1px border, the screenshot in full colour. Without an image: a gradient from the accent (22%) to `surface`, the hatch, and the title in the display font.
@@ -97,6 +97,21 @@ Each project has an `accentColor`. It is set as `--accent` on the card or the ca
 - `/projects/[slug]`: the shell and nav, then a Back `btn` to `/projects`, the cover, the title in the display font at 40px, a mono line (accent dot, year, status, category), the description, tinted chips, and Live / GitHub `btn`s that take the accent on hover. Problem, How it works and Flow follow as `Section` bands, with accent dots on the bullets and an accent border on the last flow step. A "Next project" row closes the page.
 - On these pages `Nav` gets `page="projects"`: Projects stays active and the links lead back to the home page sections.
 - The labels for these pages are in `projectLabels`.
+
+## Experience
+
+`Experience`, most recent entry first, 56px between entries.
+
+- Header line: the role in Geist bold 18px, a `faint` "·", the company in semibold `muted`. The date range sits on the right in 12px mono, `muted`, and wraps under the title on narrow screens.
+- The summary in 15px / 1.6, `muted`.
+- `Timeline`: the entry's `points`, each with a bold 15px title and a `muted` description, on a 1px vertical line in the border color with an 8px dot per point.
+  - A dot starts `faint`. Once its point is 30% up from the bottom of the viewport it fills with `text` and gets a soft 4px ring.
+  - A second line in `muted` fills from the top as the list scrolls past the same mark.
+  - With `prefers-reduced-motion` the dots are lit and the line is full from the start.
+- `Stats`, 48px below: one `card` split into four equal cells with 1px dividers, inset 16px top and bottom. Below `md` it is two rows of two with full dividers.
+  - Value in Geist bold 20px, label under it in the `label` style, `muted`.
+  - When the bar scrolls into view, values that start with a number count up from 0 over 1s (ease-out); other values fade in.
+  - The first three cells are `stats`. The fourth is the last year of GitHub contributions as "N+", from `getContributions` in `src/lib/github.ts` (jogruber contributions API, fetched on the server and revalidated once a day). If that fails, `contributionsStat.fallback` is shown instead: the number of featured projects.
 
 ## Side index
 

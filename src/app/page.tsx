@@ -3,6 +3,7 @@ import { ChevronRight } from "lucide-react";
 import { projects, sections } from "@/content/data";
 import { About } from "@/components/About";
 import { Contact } from "@/components/Contact";
+import { Experience } from "@/components/Experience";
 import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/Hero";
 import { Nav } from "@/components/Nav";
@@ -45,7 +46,7 @@ export default function Home() {
             title={s.title}
             action={
               s.id === "projects" && s.action ? (
-                <Link href="/projects" className="btn group">
+                <Link href="/projects" className="btn group text-[13px]">
                   {s.action}
                   <ChevronRight
                     size={14}
@@ -63,6 +64,8 @@ export default function Home() {
               <Contact />
             ) : s.id === "projects" ? (
               <ProjectGrid projects={featured} />
+            ) : s.id === "experience" ? (
+              <Experience />
             ) : (
               <Placeholder title={s.title} />
             )}
