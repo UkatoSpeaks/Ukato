@@ -32,7 +32,7 @@ Measured from the inspiration screenshots in `design-ref/` (not committed). They
 - A centered content column, 760px wide (`--col`), with 32px inner padding (`sm:px-8`; 16px below `sm`). 1px dashed vertical lines in the border color run down its left and right edges for the full page height.
 - Nav (`Nav`): sticky, blurred page background, 52px tall including its bottom line. The nav line is plain, with no dot markers.
   - Left: the short name in the display font at 20px, then the pronunciation in 11px mono, `faint`.
-  - Right: four links from `navLinks` (Home, Projects, Experience, Contact) in Geist 14px semibold. The active one is `text` with a 1px underline, the rest `muted`. Then a round search button (no action yet; it will open the command palette) and the round theme toggle.
+  - Right: four links from `navLinks` (Home, Projects, Experience, Contact) in Geist 14px semibold. The active one is `text` with a 1px underline, the rest `muted`. One link is always active: Home covers the hero and About, and Experience also covers Tech Stack and GitHub Activity (`covers` in `navLinks`). Then a round search button (no action yet; it will open the command palette) and the round theme toggle.
   - Below `md` the links collapse into a menu opened by a third round button.
 - Round icon buttons (`icon-btn` utility): 32px, 1px border, `muted` icon that brightens on hover.
 - Full-width 1px horizontal lines between sections. Each has a 4px dot in `faint` centred on the page edge at both ends, so half of each dot shows.
@@ -48,12 +48,34 @@ In code:
 `Hero`, at the top of the column.
 
 - Banner: `profile.banner`, 4:1, 12px radius, 1px border, inset 12px from the column lines. On hover it scales to 1.03 over 1.2s.
-- Row below, 28px under the banner: the avatar (`profile.avatar`, 96px square, 12px radius, 1px border), then the name in the display font at 40px with -0.04em tracking, the role in 13px mono, and the location in 11px mono with a map-pin icon.
-- Right of the row: a round star button linking to GitHub and a pill with a search icon and "⌘K" (no action yet).
+- Row below, 28px under the banner: the avatar (`profile.avatar`, 80px square, 12px radius, 1px border), then the name in the display font at 40px with -0.04em tracking, the role in 13px mono, and the location in 11px mono with a map-pin icon.
+- Right of the row: a bare star icon linking to GitHub (`muted`, brightening on hover) and a button with a search icon and "⌘K" (8px radius, no action yet).
 - Below `sm` the avatar stacks above the name and the two buttons move underneath.
 - If an image file is missing, its frame stays as a plain `surface-2` block.
 
 The banner and avatar are original SVG drawings in `public/`: greys only, screentone dot patterns, and a film-grain filter.
+
+## About
+
+`About`: the bullets from `about.bullets` in 15px `muted` text, each with a 3px `faint` dot, 16px apart.
+
+Below them, `NowPlaying`:
+
+- Left: a 120px vinyl record drawn in CSS gradients (dark disc, groove rings, light center dot, a soft sheen) and an SVG tonearm pivoting at its round head, top right.
+- While playing the record turns once every 3s and the tonearm swings onto it. On pause the record coasts to a stop and the arm swings back. With `prefers-reduced-motion` the record does not spin.
+- Right: the `label` line, the track title in bold, the artist in mono, then previous (bare icon), play/pause (52px round bordered button) and next (bare icon). Below `sm` the controls sit under the title.
+- A 2px progress bar across the right side; clicking it seeks.
+- The track is an `<audio>` element on `nowPlaying.audioSrc`. With a TODO title, a missing file or a load error, the play button is disabled and `nowPlaying.empty` is shown instead of the title and artist.
+- There is one track, so previous and next both restart it.
+
+## Contact
+
+`Contact`: one row across the full column (`flush` on `Section`, so no padding), split into equal cells with 1px lines between them. One cell per entry in `contact.links`.
+
+- Each cell, 64px tall: the icon in a 36px bordered square with 8px radius, the label in Geist semibold, and an up-right arrow.
+- Hover: the cell turns `surface-2`, the arrow moves 2px up and right, and the icon takes its brand color (LinkedIn `#0a66c2`, Mail `#ea4335`, Resume `#22c55e`; GitHub and X take `text`, which is white on dark).
+- Mail is a `mailto:` link; the others open in a new tab. The Resume cell is hidden until `public/resume.pdf` exists.
+- Below `md`: two columns, with an odd last cell spanning both.
 
 ## Side index
 

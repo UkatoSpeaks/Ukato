@@ -1,11 +1,13 @@
 import { profile, sections } from "@/content/data";
+import { About } from "@/components/About";
+import { Contact } from "@/components/Contact";
 import { Hero } from "@/components/Hero";
 import { Nav } from "@/components/Nav";
 import { PageShell } from "@/components/PageShell";
 import { Section } from "@/components/Section";
 import { SideIndex } from "@/components/SideIndex";
 
-// Placeholder content: the shell only. Real content lands section by section.
+// Placeholder for the sections that have not been built yet.
 function Placeholder({ title }: { title: string }) {
   return (
     <div className="card p-6">
@@ -31,8 +33,20 @@ export default function Home() {
 
       <main>
         {sections.map((s) => (
-          <Section key={s.id} id={s.id} title={s.title} action={s.action}>
-            <Placeholder title={s.title} />
+          <Section
+            key={s.id}
+            id={s.id}
+            title={s.title}
+            action={s.action}
+            flush={s.id === "contact"}
+          >
+            {s.id === "about" ? (
+              <About />
+            ) : s.id === "contact" ? (
+              <Contact />
+            ) : (
+              <Placeholder title={s.title} />
+            )}
           </Section>
         ))}
       </main>

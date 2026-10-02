@@ -1,36 +1,71 @@
-import { Fragment } from "react";
-import { contact } from "@/content/data";
-import { CopyButton } from "@/components/CopyButton";
+import { ArrowUpRight, FileText, Mail } from "lucide-react";
+import { FaGithub, FaLinkedin, FaXTwitter } from "react-icons/fa6";
+import { contact, type ContactLink } from "@/content/data";
+import { projectImage } from "@/lib/projectImage";
 
-const links = contact.links.filter((l) => l.id !== "mail");
+type IconProps = { size?: number; className?: string };
+
+// Icon and hover color per link. GitHub and X are white on the dark theme, so
+// they take the text color and stay visible on the light one.
+const brand: Record<
+  ContactLink["id"],
+  { icon: React.ComponentType<IconProps>; color: string }
+> = {
+  github: { icon: FaGithub, color: "var(--text)" },
+  linkedin: { icon: FaLinkedin, color: "#0a66c2" },
+  x: { icon: FaXTwitter, color: "var(--text)" },
+  mail: { icon: Mail, color: "#ea4335" },
+  resume: { icon: FileText, color: "#22c55e" },
+};
+
+const columns: Record<number, string> = {
+  1: "md:grid-cols-1",
+  2: "md:grid-cols-2",
+  3: "md:grid-cols-3",
+  4: "md:grid-cols-4",
+  5: "md:grid-cols-5",
+};
 
 export function Contact() {
-  const mailto = `mailto:${contact.email}`;
+  // The resume cell is left out until its file is in public/.
+  const links = contact.links.filter(
+    (l) => l.id !== "resume" || projectImage(l.href),
+  );
 
   return (
-    <div>
-      <p>{contact.note}</p>
-      <p className="mt-4 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-        <a href={mailto} className="link text-[17px] font-name break-all">
-          {contact.email}
-        </a>
-        <CopyButton value={contact.email} fallbackHref={mailto} />
-      </p>
-      <p className="mt-6 text-[15px]">
-        {links.map((l, i) => (
-          <Fragment key={l.label}>
-            {i > 0 && " · "}
+    // The 1px gaps show the border color between cells.
+    <ul className={`grid grid-cols-2 gap-px bg-border ${columns[links.length]}`}>
+      {links.map((l) => {
+        const { icon: Icon, color } = brand[l.id];
+        const external = l.id !== "mail";
+        return (
+          <li
+            key={l.id}
+            className="bg-bg last:odd:col-span-2 md:last:odd:col-span-1"
+          >
             <a
               href={l.href}
-              target="_blank"
-              rel="noreferrer"
-              className="link whitespace-nowrap"
+              target={external ? "_blank" : undefined}
+              rel={external ? "noreferrer" : undefined}
+              style={{ "--brand": color } as React.CSSProperties}
+              className="group flex h-16 items-center justify-center gap-3 px-3 transition-colors duration-200 hover:bg-surface-2"
             >
-              {l.label} ↗
+              <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg border border-border bg-surface text-muted transition-colors duration-200 group-hover:text-(--brand)">
+                <Icon size={17} />
+              </span>
+              <span className="text-[15px] font-semibold text-text">
+                {l.label}
+              </span>
+              <ArrowUpRight
+                size={14}
+                strokeWidth={1.75}
+                aria-hidden
+                className="shrink-0 text-faint transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transform-none"
+              />
             </a>
-          </Fragment>
-        ))}
-      </p>
-    </div>
+          </li>
+        );
+      })}
+    </ul>
   );
 }

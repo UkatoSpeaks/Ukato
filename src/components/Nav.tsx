@@ -7,8 +7,6 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { useActiveSection } from "@/hooks/useActiveSection";
 
 const ids = sections.map((s) => s.id);
-// Home covers the hero and the first section.
-const home: (string | null)[] = [null, ids[0]];
 
 export function Nav() {
   const [open, setOpen] = useState(false);
@@ -17,7 +15,12 @@ export function Nav() {
   const links = navLinks.map((link) => ({
     label: link.label,
     href: link.section ? `#${link.section}` : "#top",
-    current: link.section ? active === link.section : home.includes(active),
+    // Above the first section, the link without one (Home) is active.
+    current:
+      active === null
+        ? !link.section
+        : link.section === active ||
+          (link.covers ?? []).some((id) => id === active),
   }));
 
   return (

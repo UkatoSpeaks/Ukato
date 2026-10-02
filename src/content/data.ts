@@ -49,6 +49,8 @@ export type NavLink = {
   label: string;
   /** Section the link scrolls to. Without one it goes to the top of the page. */
   section?: SectionId;
+  /** Other sections that keep this link active, so one link always is. */
+  covers?: SectionId[];
 };
 
 export type About = {
@@ -144,9 +146,12 @@ export type TechGroup = {
 };
 
 export type NowPlaying = {
+  label: string;
   title: string;
   artist: string;
   audioSrc: string;
+  /** Shown while there is no track to play. */
+  empty: { title: string; artist: string };
 };
 
 export type GitHub = {
@@ -184,9 +189,9 @@ export const sections: SiteSection[] = [
 ];
 
 export const navLinks: NavLink[] = [
-  { label: "Home" },
+  { label: "Home", covers: ["about"] },
   { label: "Projects", section: "projects" },
-  { label: "Experience", section: "experience" },
+  { label: "Experience", section: "experience", covers: ["skills", "github"] },
   { label: "Contact", section: "contact" },
 ];
 
@@ -624,9 +629,11 @@ export const techStack: TechGroup[] = [
 
 // The track is not in the repo yet; a royalty-free one will be added.
 export const nowPlaying: NowPlaying = {
+  label: "Now Playing",
   title: "TITLE_TODO",
   artist: "ARTIST_TODO",
   audioSrc: "/audio/track.mp3",
+  empty: { title: "Nothing playing", artist: "—" },
 };
 
 export const github: GitHub = {

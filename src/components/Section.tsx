@@ -6,10 +6,12 @@ type Props = {
   title: string;
   /** Optional control on the right of the header band, e.g. a "view all" link. */
   action?: React.ReactNode;
+  /** Content runs edge to edge in the column, with no padding. */
+  flush?: boolean;
   children: React.ReactNode;
 };
 
-export function Section({ id, title, action, children }: Props) {
+export function Section({ id, title, action, flush, children }: Props) {
   return (
     <section id={id} aria-labelledby={`${id}-title`} className="scroll-mt-14">
       <div className="rule" />
@@ -25,7 +27,9 @@ export function Section({ id, title, action, children }: Props) {
         </div>
       </div>
       <div className="rule" />
-      <Reveal className="col px-4 py-8 sm:px-8 md:py-10">{children}</Reveal>
+      <Reveal className={flush ? "col" : "col px-4 py-8 sm:px-8 md:py-10"}>
+        {children}
+      </Reveal>
     </section>
   );
 }
