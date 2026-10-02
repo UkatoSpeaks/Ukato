@@ -16,7 +16,7 @@ export function Experience() {
           <li key={`${job.company}-${job.start}`}>
             <Entry
               title={job.role}
-              subtitle={`${job.company} · ${job.location}`}
+              subtitle={[job.company, job.location].filter(Boolean).join(" · ")}
               meta={period(job.start, job.end)}
               href={job.href}
             >

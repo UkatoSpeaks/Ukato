@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { projects, site, type Project } from "@/content/data";
+import { isTodo, profile, projects, type Project } from "@/content/data";
 import { projectImage } from "@/lib/projectImage";
 import { FadeIn } from "@/components/FadeIn";
 import { Flow } from "@/components/Flow";
@@ -29,11 +29,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const project = projects.find((p) => p.slug === slug);
   if (!project) return {};
 
-  const title = `${project.name} — ${site.name}`;
+  const title = `${project.title} — ${profile.name}`;
   return {
     title,
-    description: project.oneLiner,
-    openGraph: { title, description: project.oneLiner, type: "article" },
+    description: project.description,
+    openGraph: { title, description: project.description, type: "article" },
   };
 }
 
@@ -61,8 +61,8 @@ export default async function ProjectPage({ params }: Props) {
   const next = projects[(index + 1) % projects.length];
   const links = [
     { label: "Live", href: project.liveUrl },
-    { label: "Code", href: project.repoUrl },
-  ].filter((l) => l.href);
+    { label: "Code", href: project.githubUrl },
+  ].filter((l) => !isTodo(l.href));
 
   const sections = [
     { label: "Problem", body: <p>{project.problem}</p> },
@@ -81,7 +81,7 @@ export default async function ProjectPage({ params }: Props) {
         </ul>
       ),
     },
-    { label: "Stack", body: <p>{project.stack.join(", ")}</p> },
+    { label: "Stack", body: <p>{project.tags.join(", ")}</p> },
   ];
   // Header, title, meta and screenshot fade in before the sections.
   const firstSection = 4;
@@ -102,9 +102,9 @@ export default async function ProjectPage({ params }: Props) {
             ← Back
           </Link>
           <h1 className="mt-6 text-[22px] leading-snug font-name tracking-[-0.02em] text-ink">
-            {project.name}
+            {project.title}
           </h1>
-          <p className="mt-1">{project.oneLiner}</p>
+          <p className="mt-1">{project.description}</p>
         </FadeIn>
 
         <FadeIn index={2} className="mt-10">
@@ -149,8 +149,8 @@ export default async function ProjectPage({ params }: Props) {
         <FadeIn index={3} className="mt-10">
           <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-line bg-paper-2">
             <ProjectArt
-              name={project.name}
-              src={projectImage(project.slug)}
+              name={project.title}
+              src={projectImage(project.image)}
               sizes="(min-width: 640px) 592px, 100vw"
               priority
             />
@@ -177,7 +177,7 @@ export default async function ProjectPage({ params }: Props) {
           <Link href={`/projects/${next.slug}`} className="group block">
             <span className="block text-[15px] text-ink-3">Next project →</span>
             <span className="font-name text-ink decoration-seal decoration-1 underline-offset-[3px] group-hover:underline">
-              {next.name}
+              {next.title}
             </span>
           </Link>
         </FadeIn>

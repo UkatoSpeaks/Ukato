@@ -7,17 +7,17 @@ export function SelectedWork() {
     .filter((p) => p.featured)
     .map((p) => ({
       slug: p.slug,
-      name: p.name,
-      oneLiner: p.oneLiner,
+      name: p.title,
+      oneLiner: p.description,
       year: p.year,
       live: p.status === "live",
-      image: projectImage(p.slug),
+      image: projectImage(p.image),
     }));
   const others = projects
     .filter((p) => !p.featured)
     .map((p) => ({
       slug: p.slug,
-      name: p.name,
+      name: p.title,
       category: p.category,
       year: p.year,
     }));

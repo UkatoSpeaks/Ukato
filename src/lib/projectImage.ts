@@ -1,8 +1,12 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
+import { isTodo } from "@/content/data";
 
-/** Public path of a project's screenshot, or undefined when none was captured. */
-export function projectImage(slug: string): string | undefined {
-  const file = join(process.cwd(), "public", "projects", `${slug}.webp`);
-  return existsSync(file) ? `/projects/${slug}.webp` : undefined;
+/**
+ * A public path from the content file, or undefined when it is still a TODO or
+ * the file has not been added yet. Callers show a placeholder for undefined.
+ */
+export function projectImage(path: string): string | undefined {
+  if (isTodo(path)) return undefined;
+  return existsSync(join(process.cwd(), "public", path)) ? path : undefined;
 }

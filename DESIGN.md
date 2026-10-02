@@ -2,6 +2,8 @@
 
 The spec for the portfolio redesign, and where each part of it lives in the code.
 All content, images and text come from `src/content/data.ts`; nothing is invented.
+Values not known yet are strings ending in `_TODO`; `isTodo` detects them and the UI hides them. Image paths go through `projectImage`, which returns nothing for a TODO or a missing file so a placeholder is shown.
+Section headings and the short side-index labels are both in `sections` there (`title` and `indexLabel`).
 
 ## Theme
 

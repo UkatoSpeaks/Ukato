@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { site } from "@/content/data";
+import { profile } from "@/content/data";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 export type NavItem = {
@@ -12,7 +12,7 @@ export function Nav({ items }: { items: NavItem[] }) {
     <header className="sticky top-0 z-20 bg-bg/85 backdrop-blur">
       <div className="col flex h-[51px] items-center justify-between gap-6 border-x border-dashed border-border px-8">
         <Link href="/" className="font-display text-xl leading-none text-text">
-          {site.name}
+          {profile.name}
         </Link>
         <nav className="flex items-center gap-6">
           <ul className="hidden items-center gap-6 md:flex">

@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { site } from "@/content/data";
+import { profile } from "@/content/data";
 
 const ist = new Intl.DateTimeFormat("en-GB", {
-  timeZone: "Asia/Kolkata",
+  timeZone: profile.timezone,
   hour: "2-digit",
   minute: "2-digit",
   hour12: false,
@@ -23,7 +23,7 @@ export function Footer() {
 
   return (
     <div className="flex items-baseline justify-between gap-6 text-ink-3">
-      <p>© 2026 {site.name}</p>
+      <p>© 2026 {profile.name}</p>
       <p className="meta">
         <time suppressHydrationWarning>{time ?? "--:--"}</time> IST
       </p>

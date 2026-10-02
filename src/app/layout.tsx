@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
-import { site } from "@/content/data";
+import { profile } from "@/content/data";
 import "./globals.css";
 
 // Display: the name and section titles.
@@ -24,8 +24,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: `${site.name} — ${site.title}`,
-  description: site.tagline,
+  title: `${profile.name} — ${profile.role}`,
+  description: profile.tagline,
 };
 
 // Dark is the default, so <html> ships with .dark. This runs before first

@@ -1,25 +1,20 @@
 import { Fragment } from "react";
-import { contact, site } from "@/content/data";
+import { contact } from "@/content/data";
 import { CopyButton } from "@/components/CopyButton";
 
-const links = [
-  { label: "GitHub", href: site.links.github },
-  { label: "LinkedIn", href: site.links.linkedin },
-  { label: "X", href: site.links.x },
-  { label: "Resume", href: site.links.resume },
-];
+const links = contact.links.filter((l) => l.id !== "mail");
 
 export function Contact() {
-  const mailto = `mailto:${site.links.email}`;
+  const mailto = `mailto:${contact.email}`;
 
   return (
     <div>
       <p>{contact.note}</p>
       <p className="mt-4 flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <a href={mailto} className="link text-[17px] font-name break-all">
-          {site.links.email}
+          {contact.email}
         </a>
-        <CopyButton value={site.links.email} fallbackHref={mailto} />
+        <CopyButton value={contact.email} fallbackHref={mailto} />
       </p>
       <p className="mt-6 text-[15px]">
         {links.map((l, i) => (
