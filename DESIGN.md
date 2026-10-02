@@ -128,6 +128,28 @@ Each project has an `accentColor`. It is set as `--accent` on the card or the ca
   - Changing tab animates chips in and out over 200ms (`AnimatePresence` with `layout`). "All" shows every chip in category order.
 - Reduced motion: the pill and chips change without sliding or scaling.
 
+## GitHub Activity
+
+`GitHubActivity`, in the `github` section. The header action is "@username" in mono with an external-link icon, `muted`, linking to the GitHub profile in a new tab.
+
+- Data: `getContributions(username, year)` in `src/lib/github.ts` (jogruber contributions API), fetched on the server for this year and the two before it and revalidated once a day.
+- Year tabs, right-aligned above the graph: the active one is a pill in `text` with `bg`-colored text, the others bordered and `muted`.
+- `ContributionGraph`: the whole year as 7 rows (Sunday on top) by 53 week columns of squares with 2px radius and a 3px gap, with mono month labels above the column holding the 1st of each month. Squares are 10px from `md`, so the year fits the column, and 11px below.
+- Colors (`--gh-0` to `--gh-4`): level 0 is `surface-2`; then `#0e4429`, `#006d32`, `#26a641`, `#39d353` on dark and `#9be9a8`, `#40c463`, `#30a14e`, `#216e39` on light.
+- Hovering a square shows "N contributions on Mon D, YYYY" in a mono tooltip above it. The grid as a whole links to the GitHub profile in a new tab.
+- Below: "N contributions in YEAR" on the left, and the "Less ... More" legend on the right.
+- When the section scrolls into view the week columns fade in from left to right, about 600ms in all. Not with `prefers-reduced-motion`.
+- Below `md` the grid scrolls sideways with the scrollbar hidden, and starts at the most recent weeks: the current week this year, the end of the year for earlier ones.
+- Loading (`Suspense`): the same grid in pulsing level-0 squares. If a year cannot be loaded: `github.error` and the profile link in place of the grid.
+
+## Footer
+
+`Footer`, on every page. A `rule`, a 24px hatched band, a line, then three centred lines with 48px padding above and below:
+
+- `footer.credit` in 16px `soft`, then the name in bold `text`.
+- "© YEAR" and `footer.rights` in 12px mono, `muted`. The year is computed.
+- A pulsing green dot (`#22c55e`), the location, "·", and `FooterClock`: the time in `profile.timezone` as h:mm:ss AM/PM, ticking every second. It renders a placeholder until mounted, so server and client markup match.
+
 ## Side index
 
 `SideIndex`, from 1280px wide only. Fixed in the right gutter, 30px from the column line, vertically centred.

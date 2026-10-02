@@ -14,15 +14,18 @@ export type Contributions = {
 const DAY = 60 * 60 * 24;
 
 /**
- * The last year of public GitHub contributions, refreshed once a day.
- * Null when the API cannot be reached or answers with something unexpected.
+ * Public GitHub contributions, refreshed once a day: a calendar year (January
+ * to December, days still to come included with a count of 0), or the last
+ * 12 months by default. Null when the API cannot be reached or answers with
+ * something unexpected.
  */
 export async function getContributions(
   username: string,
+  year: number | "last" = "last",
 ): Promise<Contributions | null> {
   try {
     const res = await fetch(
-      `https://github-contributions-api.jogruber.de/v4/${username}?y=last`,
+      `https://github-contributions-api.jogruber.de/v4/${username}?y=${year}`,
       { next: { revalidate: DAY } },
     );
     if (!res.ok) return null;

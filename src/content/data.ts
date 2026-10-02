@@ -168,6 +168,18 @@ export type NowPlaying = {
 
 export type GitHub = {
   username: string;
+  /** Ends of the heatmap legend. */
+  less: string;
+  more: string;
+  /** Shown when the contributions cannot be loaded. */
+  error: string;
+};
+
+export type Footer = {
+  /** Comes before the name. */
+  credit: string;
+  /** Comes after the year. */
+  rights: string;
 };
 
 // ---------------------------------------------------------------------------
@@ -717,4 +729,12 @@ export const nowPlaying: NowPlaying = {
 
 export const github: GitHub = {
   username: "UkatoSpeaks",
+  less: "Less",
+  more: "More",
+  error: "Contributions could not be loaded right now.",
+};
+
+export const footer: Footer = {
+  credit: "Designed & Developed by",
+  rights: "All rights reserved.",
 };

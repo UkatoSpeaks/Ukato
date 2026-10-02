@@ -18,6 +18,13 @@
   --faint: #8c8c8c;
   --seal: #c2361f;
 
+  /* Contribution heatmap, levels 0 to 4. */
+  --gh-0: var(--surface-2);
+  --gh-1: #9be9a8;
+  --gh-2: #40c463;
+  --gh-3: #30a14e;
+  --gh-4: #216e39;
+
   /* Width of the centered content column. */
   --col: 760px;
 
@@ -41,6 +48,11 @@
   --muted: #a1a1a1;
   --faint: #737373;
   --seal: #d9482f;
+
+  --gh-1: #0e4429;
+  --gh-2: #006d32;
+  --gh-3: #26a641;
+  --gh-4: #39d353;
 }
 
 @theme inline {
@@ -282,6 +294,32 @@ body {
   &:hover {
     border-color: var(--brand);
     background: color-mix(in srgb, var(--brand) 8%, var(--surface));
+  }
+}
+
+@keyframes gh-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* A week column of the contribution heatmap. Hidden until the grid gets
+   data-shown, then the columns fade in left to right; --i is the column. */
+@utility gh-col {
+  opacity: 0;
+
+  [data-shown] > & {
+    animation: gh-fade 220ms ease-out both;
+    animation-delay: calc(var(--i) * 7ms);
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    opacity: 1;
+
+    [data-shown] > & {
+      animation: none;
+    }
   }
 }
 

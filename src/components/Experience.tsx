@@ -10,13 +10,6 @@ import { getContributions } from "@/lib/github";
 import { Stats } from "@/components/Stats";
 import { Timeline } from "@/components/Timeline";
 
-/** "Apr 2026", "Jun 2026" → "Apr – Jun 2026"; different years keep both. */
-function period(start: string, end: string) {
-  const year = end.split(" ").pop();
-  const shared = start.includes(" ") && start.endsWith(` ${year}`);
-  return `${shared ? start.slice(0, -` ${year}`.length) : start} – ${end}`;
-}
-
 export async function Experience() {
   const contributions = await getContributions(github.username);
   const last: Stat = contributions
@@ -47,7 +40,7 @@ export async function Experience() {
                 </span>
               </h3>
               <p className="font-mono text-xs tracking-normal text-muted">
-                {period(job.start, job.end)}
+                {job.start} – {job.end}
               </p>
             </div>
             <p className="mt-2 text-[15px] leading-[1.6] text-soft">
