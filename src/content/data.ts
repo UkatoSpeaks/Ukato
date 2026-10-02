@@ -235,7 +235,6 @@ export const contact: Contact = {
     },
     { id: "x", label: "X", href: "https://x.com/AnuragGeeK" },
     { id: "mail", label: "Mail", href: `mailto:${email}` },
-    // Placeholder: public/resume.pdf is not in the repo yet.
     { id: "resume", label: "Resume", href: "/resume.pdf" },
   ],
 };
