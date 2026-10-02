@@ -108,8 +108,14 @@ export type Experience = {
   start: string;
   end: string;
   summary: string;
-  points: string[];
+  points: ExperiencePoint[];
   href?: string;
+};
+
+export type ExperiencePoint = {
+  /** Short heading on the timeline. */
+  title: string;
+  detail: string;
 };
 
 export type Education = {
@@ -130,6 +136,12 @@ export type Achievement = {
 export type Stat = {
   value: string;
   label: string;
+};
+
+/** The stat filled in from GitHub, and what replaces it if that fails. */
+export type ContributionsStat = {
+  label: string;
+  fallback: Stat;
 };
 
 export type TechCategory =
@@ -156,6 +168,18 @@ export type NowPlaying = {
 
 export type GitHub = {
   username: string;
+  /** Ends of the heatmap legend. */
+  less: string;
+  more: string;
+  /** Shown when the contributions cannot be loaded. */
+  error: string;
+};
+
+export type Footer = {
+  /** Comes before the name. */
+  credit: string;
+  /** Comes after the year. */
+  rights: string;
 };
 
 // ---------------------------------------------------------------------------
@@ -184,7 +208,12 @@ export const sections: SiteSection[] = [
     action: "View All Projects",
   },
   { id: "experience", title: "Experience", indexLabel: "Experience" },
-  { id: "skills", title: "Tech Stack", indexLabel: "Skills" },
+  {
+    id: "skills",
+    title: "Tech Stack",
+    indexLabel: "Skills",
+    action: "( select tab to filter )",
+  },
   { id: "github", title: "GitHub Activity", indexLabel: "GitHub" },
 ];
 
@@ -561,7 +590,39 @@ export const projectLabels = {
   } satisfies Record<ProjectStatus, string>,
 };
 
+// Most recent first.
 export const experience: Experience[] = [
+  {
+    role: "AI Engineer & Full-Stack Developer",
+    company: "Independent Builder",
+    start: "2026",
+    end: "Present",
+    summary:
+      "Building AI products on my own, from the agent and model logic through to the web app.",
+    // A title that is also a project title links to that project's page.
+    points: [
+      {
+        title: "Kavach",
+        detail:
+          "Built a real-time scam detection platform for Indian users that checks UPI IDs and links for fraud. FastAPI backend on Render, Next.js frontend on Vercel, Groq for LLM analysis, Supabase for data.",
+      },
+      {
+        title: "ApplyAI",
+        detail:
+          "Built an AI agent that automates repetitive parts of the job application workflow, from parsing listings to preparing applications.",
+      },
+      {
+        title: "Debugly",
+        detail:
+          "Built an AI-native debugging tool that takes stack traces, console logs and runtime errors and returns targeted code fixes.",
+      },
+      {
+        title: "TacticLens",
+        detail:
+          "Built a football tactical analysis app on Understat data: pressing (PPDA), passing networks, defensive block height, K-Means style archetypes and AI-generated scouting reports.",
+      },
+    ],
+  },
   {
     role: "AI Engineer Intern",
     company: "Tsole Technologies",
@@ -571,19 +632,22 @@ export const experience: Experience[] = [
     summary:
       "Worked on backend services, LLM agent workflows and retrieval pipelines.",
     points: [
-      "Built FastAPI and PostgreSQL backends.",
-      "Built LangGraph/LangChain agent workflows.",
-      "Built RAG pipelines with ChromaDB.",
+      {
+        title: "Backend Services",
+        detail:
+          "Built and maintained FastAPI services backed by PostgreSQL for AI-driven features.",
+      },
+      {
+        title: "Agent Workflows",
+        detail:
+          "Designed multi-step agent workflows with LangGraph and LangChain, handling tool calls and state across steps.",
+      },
+      {
+        title: "RAG Pipelines",
+        detail:
+          "Built retrieval-augmented generation pipelines with ChromaDB for grounded answers over internal documents.",
+      },
     ],
-  },
-  {
-    role: "AI Engineer & Full-Stack Developer",
-    company: "Independent Builder",
-    start: "2026",
-    end: "Present",
-    summary:
-      "Building AI products on my own, from the agent and model logic through to the web app.",
-    points: ["Shipping Kavach, ApplyAI, Debugly and TacticLens end-to-end."],
   },
 ];
 
@@ -615,9 +679,20 @@ export const achievements: Achievement[] = [
 export const stats: Stat[] = [
   { value: "6+", label: "Projects shipped" },
   { value: "AI+Web", label: "Stack focus" },
-  { value: "1", label: "Internship" },
-  { value: "COMMITS_TODO", label: "GitHub commits" },
+  {
+    value: String(projects.filter((p) => p.featured).length),
+    label: "Featured projects",
+  },
 ];
+
+// Shown after `stats`. The value is the last year of GitHub contributions.
+export const contributionsStat: ContributionsStat = {
+  label: "Contributions",
+  fallback: { value: "1", label: "Internship" },
+};
+
+/** Label of the tab that shows every group. */
+export const techStackAll = "All";
 
 export const techStack: TechGroup[] = [
   {
@@ -654,4 +729,12 @@ export const nowPlaying: NowPlaying = {
 
 export const github: GitHub = {
   username: "UkatoSpeaks",
+  less: "Less",
+  more: "More",
+  error: "Contributions could not be loaded right now.",
+};
+
+export const footer: Footer = {
+  credit: "Designed & Developed by",
+  rights: "All rights reserved.",
 };

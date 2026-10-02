@@ -89,11 +89,22 @@ export function NowPlaying({ src }: Props) {
     else el.pause();
   };
 
-  const seek = (fraction: number) => {
+  // Position asked for before the track has loaded, applied once it has.
+  const pending = useRef<number | null>(null);
+
+  /** `start` also loads and plays a track that has not been played yet. */
+  const seek = (fraction: number, start = false) => {
     const el = audio.current;
-    if (!el || !available || !Number.isFinite(el.duration)) return;
-    el.currentTime = Math.min(1, Math.max(0, fraction)) * el.duration;
-    setProgress(el.currentTime / el.duration);
+    if (!el || !available) return;
+    const target = Math.min(1, Math.max(0, fraction));
+    if (Number.isFinite(el.duration)) {
+      el.currentTime = target * el.duration;
+      setProgress(target);
+    } else if (start) {
+      pending.current = target;
+      setProgress(target);
+      el.play().catch(() => setPlaying(false));
+    }
   };
 
   const title = available ? nowPlaying.title : nowPlaying.empty.title;
@@ -110,6 +121,12 @@ export function NowPlaying({ src }: Props) {
           onPause={() => setPlaying(false)}
           onEnded={() => setProgress(0)}
           onError={() => setFailed(true)}
+          onLoadedMetadata={(e) => {
+            if (pending.current === null) return;
+            e.currentTarget.currentTime =
+              pending.current * e.currentTarget.duration;
+            pending.current = null;
+          }}
           onTimeUpdate={(e) => {
             const el = e.currentTarget;
             if (el.duration > 0) setProgress(el.currentTime / el.duration);
@@ -234,7 +251,7 @@ export function NowPlaying({ src }: Props) {
           aria-disabled={!available}
           onClick={(e) => {
             const box = e.currentTarget.getBoundingClientRect();
-            seek((e.clientX - box.left) / box.width);
+            seek((e.clientX - box.left) / box.width, true);
           }}
           onKeyDown={(e) => {
             if (e.key === "ArrowRight") seek(progress + 0.05);
