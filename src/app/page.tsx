@@ -11,6 +11,7 @@ import { PageShell } from "@/components/PageShell";
 import { ProjectGrid } from "@/components/ProjectGrid";
 import { Section } from "@/components/Section";
 import { SideIndex } from "@/components/SideIndex";
+import { TechStack } from "@/components/TechStack";
 
 // Placeholder for the sections that have not been built yet.
 function Placeholder({ title }: { title: string }) {
@@ -54,9 +55,13 @@ export default function Home() {
                     className="transition-transform duration-[250ms] group-hover:translate-x-0.5 motion-reduce:transform-none"
                   />
                 </Link>
+              ) : s.action ? (
+                <span className="font-mono text-xs tracking-normal text-faint">
+                  {s.action}
+                </span>
               ) : undefined
             }
-            flush={s.id === "contact"}
+            flush={s.id === "contact" || s.id === "skills"}
           >
             {s.id === "about" ? (
               <About />
@@ -66,6 +71,8 @@ export default function Home() {
               <ProjectGrid projects={featured} />
             ) : s.id === "experience" ? (
               <Experience />
+            ) : s.id === "skills" ? (
+              <TechStack />
             ) : (
               <Placeholder title={s.title} />
             )}

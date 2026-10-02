@@ -16,6 +16,7 @@ Dark by default, with a light theme behind the toggle in the nav.
 | `--surface-2` | `#161616`                | `#f3f3f3`          | `surface-2` | Chips, buttons |
 | `--border`    | `rgb(255 255 255 / 0.1)` | `rgb(0 0 0 / 0.1)` | `border`    | Every line and border |
 | `--text`      | `#f5f5f5`                | `#171717`          | `text`      | Titles, strong text |
+| `--soft`      | `#c4c4c4`                | `#3d3d3d`          | `soft`      | Longer copy that should read brighter than `muted` |
 | `--muted`     | `#a1a1a1`                | `#5c5c5c`          | `muted`     | Body copy, nav links |
 | `--faint`     | `#737373`                | `#8c8c8c`          | `faint`     | Mono labels, meta, rule dots |
 
@@ -102,16 +103,30 @@ Each project has an `accentColor`. It is set as `--accent` on the card or the ca
 
 `Experience`, most recent entry first, 56px between entries.
 
-- Header line: the role in Geist bold 18px, a `faint` "·", the company in semibold `muted`. The date range sits on the right in 12px mono, `muted`, and wraps under the title on narrow screens.
-- The summary in 15px / 1.6, `muted`.
-- `Timeline`: the entry's `points`, each with a bold 15px title and a `muted` description, on a 1px vertical line in the border color with an 8px dot per point.
+- Header line: the role in Geist bold 18px, a `faint` "·", the company in semibold `muted`, followed by the location after another "·" when there is one. The date range sits on the right in 12px mono, `muted`, and wraps under the title on narrow screens.
+- The summary in 15px / 1.6, `soft`.
+- `Timeline`: the entry's `points`, each with a bold 15px title and a `soft` description, on a 1px vertical line in the border color with an 8px dot per point.
   - A dot starts `faint`. Once its point is 30% up from the bottom of the viewport it fills with `text` and gets a soft 4px ring.
   - A second line in `muted` fills from the top as the list scrolls past the same mark.
   - With `prefers-reduced-motion` the dots are lit and the line is full from the start.
+  - A title that is also a project title links to `/projects/[slug]`, with a hairline underline on hover.
 - `Stats`, 48px below: one `card` split into four equal cells with 1px dividers, inset 16px top and bottom. Below `md` it is two rows of two with full dividers.
   - Value in Geist bold 20px, label under it in the `label` style, `muted`.
   - When the bar scrolls into view, values that start with a number count up from 0 over 1s (ease-out); other values fade in.
-  - The first three cells are `stats`. The fourth is the last year of GitHub contributions as "N+", from `getContributions` in `src/lib/github.ts` (jogruber contributions API, fetched on the server and revalidated once a day). If that fails, `contributionsStat.fallback` is shown instead: the number of featured projects.
+  - The first three cells are `stats`. The fourth is the last year of GitHub contributions as "N+", from `getContributions` in `src/lib/github.ts` (jogruber contributions API, fetched on the server and revalidated once a day). If that fails, `contributionsStat.fallback` is shown instead.
+
+## Tech Stack
+
+`TechStack`, in the `skills` section. The header action is the mono hint "( select tab to filter )" in `faint`.
+
+- Tab bar: one container with 10px radius, 1px border and `surface` background, inset 16px from the column lines, with a full-width line under it. Tabs are "All" and then each category in `techStack`, with a 14px lucide icon and the label in Geist semibold 14px, `muted`.
+  - The active tab is a pill in `text` with `bg`-colored text, so it inverts with the theme. It slides between tabs (framer-motion `layoutId`).
+  - From `md` the tabs share the width equally. Below, the bar scrolls sideways with the scrollbar hidden.
+- Chips (`tech-chip`): wrapping row, 12px gap. 1px border, 4px radius, 8px 14px padding, 13px mono in `soft`, and a 16px logo on the left in its brand color.
+  - Logos and colors are in `src/components/techIcons.ts`: Simple Icons from react-icons, or a lucide icon in a picked color where Simple Icons has none (REST APIs, ChromaDB, RAG, Groq, Vector Embeddings). Black or white logos take `text`. Brand colors that are too dark on the dark theme have a lighter `dark` value.
+  - Hover: the border takes the brand color, the background gets an 8% tint of it, and the icon scales to 1.1.
+  - Changing tab animates chips in and out over 200ms (`AnimatePresence` with `layout`). "All" shows every chip in category order.
+- Reduced motion: the pill and chips change without sliding or scaling.
 
 ## Side index
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
 import {
   motion,
   useInView,
@@ -9,7 +10,10 @@ import {
 } from "framer-motion";
 import type { ExperiencePoint } from "@/content/data";
 
-function Point({ point, still }: { point: ExperiencePoint; still: boolean }) {
+/** A point, with the page its title links to when there is one. */
+type TimelinePoint = ExperiencePoint & { href?: string };
+
+function Point({ point, still }: { point: TimelinePoint; still: boolean }) {
   const ref = useRef<HTMLLIElement>(null);
   // Reached once the point is 30% up from the bottom of the viewport. The top
   // margin keeps it reached after it has scrolled out above.
@@ -27,8 +31,19 @@ function Point({ point, still }: { point: ExperiencePoint; still: boolean }) {
             : "bg-faint shadow-[0_0_0_4px_transparent]"
         }`}
       />
-      <p className="text-[15px] font-bold text-text">{point.title}</p>
-      <p className="mt-1 text-[15px] leading-[1.6] text-muted">
+      <p className="text-[15px] font-bold text-text">
+        {point.href ? (
+          <Link
+            href={point.href}
+            className="underline decoration-transparent decoration-1 underline-offset-4 transition-[text-decoration-color] duration-200 hover:decoration-faint"
+          >
+            {point.title}
+          </Link>
+        ) : (
+          point.title
+        )}
+      </p>
+      <p className="mt-1 text-[15px] leading-[1.6] text-soft">
         {point.detail}
       </p>
     </li>
@@ -36,7 +51,7 @@ function Point({ point, still }: { point: ExperiencePoint; still: boolean }) {
 }
 
 /** Points on a vertical line that fills as the list scrolls past. */
-export function Timeline({ points }: { points: ExperiencePoint[] }) {
+export function Timeline({ points }: { points: TimelinePoint[] }) {
   const ref = useRef<HTMLOListElement>(null);
   const still = useReducedMotion() ?? false;
   // Same 70% mark as the points.

@@ -13,6 +13,7 @@
   --surface-2: #f3f3f3;
   --border: rgb(0 0 0 / 0.1);
   --text: #171717;
+  --soft: #3d3d3d;
   --muted: #5c5c5c;
   --faint: #8c8c8c;
   --seal: #c2361f;
@@ -36,6 +37,7 @@
   --surface-2: #161616;
   --border: rgb(255 255 255 / 0.1);
   --text: #f5f5f5;
+  --soft: #c4c4c4;
   --muted: #a1a1a1;
   --faint: #737373;
   --seal: #d9482f;
@@ -47,6 +49,7 @@
   --color-surface-2: var(--surface-2);
   --color-border: var(--border);
   --color-text: var(--text);
+  --color-soft: var(--soft);
   --color-muted: var(--muted);
   --color-faint: var(--faint);
 
@@ -249,6 +252,36 @@ body {
     &:hover {
       transform: none;
     }
+  }
+}
+
+/* Tech stack chip. --brand-light and --brand-dark are set per chip; the theme
+   picks one as --brand. */
+@utility tech-chip {
+  --brand: var(--brand-light);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-chip);
+  background: var(--surface);
+  padding: 8px 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--soft);
+  transition:
+    border-color 200ms ease,
+    background-color 200ms ease;
+
+  &:where(.dark, .dark *) {
+    --brand: var(--brand-dark);
+  }
+
+  &:hover {
+    border-color: var(--brand);
+    background: color-mix(in srgb, var(--brand) 8%, var(--surface));
   }
 }
 

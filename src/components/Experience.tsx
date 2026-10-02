@@ -2,6 +2,7 @@ import {
   contributionsStat,
   experience,
   github,
+  projects,
   stats,
   type Stat,
 } from "@/content/data";
@@ -33,16 +34,34 @@ export async function Experience() {
                 <span aria-hidden className="mx-2.5 font-normal text-faint">
                   ·
                 </span>
-                <span className="font-semibold text-muted">{job.company}</span>
+                <span className="font-semibold text-muted">
+                  {job.company}
+                  {job.location && (
+                    <>
+                      <span aria-hidden className="mx-2.5 font-normal text-faint">
+                        ·
+                      </span>
+                      {job.location}
+                    </>
+                  )}
+                </span>
               </h3>
               <p className="font-mono text-xs tracking-normal text-muted">
                 {period(job.start, job.end)}
               </p>
             </div>
-            <p className="mt-2 text-[15px] leading-[1.6] text-muted">
+            <p className="mt-2 text-[15px] leading-[1.6] text-soft">
               {job.summary}
             </p>
-            <Timeline points={job.points} />
+            <Timeline
+              points={job.points.map((point) => {
+                const project = projects.find((p) => p.title === point.title);
+                return {
+                  ...point,
+                  href: project && `/projects/${project.slug}`,
+                };
+              })}
+            />
           </li>
         ))}
       </ul>

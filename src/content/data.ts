@@ -196,7 +196,12 @@ export const sections: SiteSection[] = [
     action: "View All Projects",
   },
   { id: "experience", title: "Experience", indexLabel: "Experience" },
-  { id: "skills", title: "Tech Stack", indexLabel: "Skills" },
+  {
+    id: "skills",
+    title: "Tech Stack",
+    indexLabel: "Skills",
+    action: "( select tab to filter )",
+  },
   { id: "github", title: "GitHub Activity", indexLabel: "GitHub" },
 ];
 
@@ -582,10 +587,27 @@ export const experience: Experience[] = [
     end: "Present",
     summary:
       "Building AI products on my own, from the agent and model logic through to the web app.",
+    // A title that is also a project title links to that project's page.
     points: [
       {
-        title: "Shipping Products",
-        detail: "Shipping Kavach, ApplyAI, Debugly and TacticLens end-to-end.",
+        title: "Kavach",
+        detail:
+          "Built a real-time scam detection platform for Indian users that checks UPI IDs and links for fraud. FastAPI backend on Render, Next.js frontend on Vercel, Groq for LLM analysis, Supabase for data.",
+      },
+      {
+        title: "ApplyAI",
+        detail:
+          "Built an AI agent that automates repetitive parts of the job application workflow, from parsing listings to preparing applications.",
+      },
+      {
+        title: "Debugly",
+        detail:
+          "Built an AI-native debugging tool that takes stack traces, console logs and runtime errors and returns targeted code fixes.",
+      },
+      {
+        title: "TacticLens",
+        detail:
+          "Built a football tactical analysis app on Understat data: pressing (PPDA), passing networks, defensive block height, K-Means style archetypes and AI-generated scouting reports.",
       },
     ],
   },
@@ -600,15 +622,18 @@ export const experience: Experience[] = [
     points: [
       {
         title: "Backend Services",
-        detail: "Built FastAPI and PostgreSQL backends.",
+        detail:
+          "Built and maintained FastAPI services backed by PostgreSQL for AI-driven features.",
       },
       {
         title: "Agent Workflows",
-        detail: "Built LangGraph/LangChain agent workflows.",
+        detail:
+          "Designed multi-step agent workflows with LangGraph and LangChain, handling tool calls and state across steps.",
       },
       {
         title: "RAG Pipelines",
-        detail: "Built RAG pipelines with ChromaDB.",
+        detail:
+          "Built retrieval-augmented generation pipelines with ChromaDB for grounded answers over internal documents.",
       },
     ],
   },
@@ -642,17 +667,20 @@ export const achievements: Achievement[] = [
 export const stats: Stat[] = [
   { value: "6+", label: "Projects shipped" },
   { value: "AI+Web", label: "Stack focus" },
-  { value: "1", label: "Internship" },
+  {
+    value: String(projects.filter((p) => p.featured).length),
+    label: "Featured projects",
+  },
 ];
 
 // Shown after `stats`. The value is the last year of GitHub contributions.
 export const contributionsStat: ContributionsStat = {
   label: "Contributions",
-  fallback: {
-    value: String(projects.filter((p) => p.featured).length),
-    label: "Featured projects",
-  },
+  fallback: { value: "1", label: "Internship" },
 };
+
+/** Label of the tab that shows every group. */
+export const techStackAll = "All";
 
 export const techStack: TechGroup[] = [
   {
