@@ -45,6 +45,12 @@ export type SiteSection = {
   action?: string;
 };
 
+export type NavLink = {
+  label: string;
+  /** Section the link scrolls to. Without one it goes to the top of the page. */
+  section?: SectionId;
+};
+
 export type About = {
   bullets: string[];
 };
@@ -159,8 +165,8 @@ export const profile: Profile = {
   tagline: "AI engineer who also ships full-stack.",
   location: "Dehradun, India",
   timezone: "Asia/Kolkata",
-  avatar: "/avatar.webp",
-  banner: "/banner.webp",
+  avatar: "/avatar.svg",
+  banner: "/banner.svg",
 };
 
 export const sections: SiteSection[] = [
@@ -175,6 +181,13 @@ export const sections: SiteSection[] = [
   { id: "experience", title: "Experience", indexLabel: "Experience" },
   { id: "skills", title: "Tech Stack", indexLabel: "Skills" },
   { id: "github", title: "GitHub Activity", indexLabel: "GitHub" },
+];
+
+export const navLinks: NavLink[] = [
+  { label: "Home" },
+  { label: "Projects", section: "projects" },
+  { label: "Experience", section: "experience" },
+  { label: "Contact", section: "contact" },
 ];
 
 export const about: About = {
@@ -262,7 +275,7 @@ export const projects: Project[] = [
       "SQLAlchemy",
       "Alembic",
     ],
-    liveUrl: "https://job-application-ai-agent-1bxya6fcv.vercel.app/",
+    liveUrl: "https://job-application-ai-agent-nine.vercel.app",
     githubUrl: "https://github.com/UkatoSpeaks/job-application-ai-agent",
     image: "/projects/applyai.webp",
     accentColor: "#3b82f6",
@@ -335,7 +348,7 @@ export const projects: Project[] = [
     githubUrl: "GITHUB_URL_TODO",
     image: "IMAGE_TODO",
     accentColor: "#22c55e",
-    featured: true,
+    featured: false,
     status: "building",
     category: "ML",
     problem:
@@ -408,8 +421,7 @@ export const projects: Project[] = [
     ],
   },
 
-  // Earlier projects, kept for their case-study pages. No accent was chosen
-  // for these, so they share a neutral grey.
+  // Earlier projects, kept for their case-study pages.
   {
     slug: "researchpilot",
     title: "ResearchPilot",
@@ -420,7 +432,7 @@ export const projects: Project[] = [
     liveUrl: "LIVE_URL_TODO",
     githubUrl: "https://github.com/UkatoSpeaks/research-agent-assignment",
     image: "IMAGE_TODO",
-    accentColor: "#a1a1a1",
+    accentColor: "#ec4899",
     featured: false,
     status: "shipped",
     category: "AI Agents",
@@ -443,7 +455,7 @@ export const projects: Project[] = [
     liveUrl: "LIVE_URL_TODO",
     githubUrl: "https://github.com/UkatoSpeaks/Code-Reviewer-Agent",
     image: "IMAGE_TODO",
-    accentColor: "#a1a1a1",
+    accentColor: "#f97316",
     featured: false,
     status: "building",
     category: "AI Agents",
@@ -482,7 +494,7 @@ export const projects: Project[] = [
     liveUrl: "LIVE_URL_TODO",
     githubUrl: "https://github.com/UkatoSpeaks/Football-Scouting-Agent",
     image: "IMAGE_TODO",
-    accentColor: "#a1a1a1",
+    accentColor: "#10b981",
     featured: false,
     status: "shipped",
     category: "ML",
@@ -513,7 +525,7 @@ export const projects: Project[] = [
     liveUrl: "LIVE_URL_TODO",
     githubUrl: "https://github.com/UkatoSpeaks/LeetLens",
     image: "IMAGE_TODO",
-    accentColor: "#a1a1a1",
+    accentColor: "#eab308",
     featured: false,
     status: "building",
     category: "Dev Tools",

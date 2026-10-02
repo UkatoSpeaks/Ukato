@@ -29,8 +29,12 @@ Dark by default, with a light theme behind the toggle in the nav.
 
 Measured from the inspiration screenshots in `design-ref/` (not committed). They were captured at 1.25x, so pixel measurements were divided by 1.25.
 
-- A centered content column, 760px wide (`--col`), with 32px inner padding (`px-8`). 1px dashed vertical lines in the border color run down its left and right edges for the full page height.
-- Nav: 52px tall including its bottom line. The nav line is plain, with no dot markers. Links are Geist 14px semibold in `muted`; the wordmark is the display font at 20px.
+- A centered content column, 760px wide (`--col`), with 32px inner padding (`sm:px-8`; 16px below `sm`). 1px dashed vertical lines in the border color run down its left and right edges for the full page height.
+- Nav (`Nav`): sticky, blurred page background, 52px tall including its bottom line. The nav line is plain, with no dot markers.
+  - Left: the short name in the display font at 20px, then the pronunciation in 11px mono, `faint`.
+  - Right: four links from `navLinks` (Home, Projects, Experience, Contact) in Geist 14px semibold. The active one is `text` with a 1px underline, the rest `muted`. Then a round search button (no action yet; it will open the command palette) and the round theme toggle.
+  - Below `md` the links collapse into a menu opened by a third round button.
+- Round icon buttons (`icon-btn` utility): 32px, 1px border, `muted` icon that brightens on hover.
 - Full-width 1px horizontal lines between sections. Each has a 4px dot in `faint` centred on the page edge at both ends, so half of each dot shows.
 
 In code:
@@ -38,6 +42,27 @@ In code:
 - `PageShell` draws the dashed column lines as an overlay.
 - `col` utility: the column itself, `min(760px, 100% - 2rem)`, centered.
 - `rule` utility: the full-width line with its two edge dots.
+
+## Hero
+
+`Hero`, at the top of the column.
+
+- Banner: `profile.banner`, 4:1, 12px radius, 1px border, inset 12px from the column lines. On hover it scales to 1.03 over 1.2s.
+- Row below, 28px under the banner: the avatar (`profile.avatar`, 96px square, 12px radius, 1px border), then the name in the display font at 40px with -0.04em tracking, the role in 13px mono, and the location in 11px mono with a map-pin icon.
+- Right of the row: a round star button linking to GitHub and a pill with a search icon and "⌘K" (no action yet).
+- Below `sm` the avatar stacks above the name and the two buttons move underneath.
+- If an image file is missing, its frame stays as a plain `surface-2` block.
+
+The banner and avatar are original SVG drawings in `public/`: greys only, screentone dot patterns, and a film-grain filter.
+
+## Side index
+
+`SideIndex`, from 1280px wide only. Fixed in the right gutter, 30px from the column line, vertically centred.
+
+- An "INDEX" label, then the `indexLabel` of each entry in `sections`, in 12px mono.
+- The active entry is `text`, semibold, with a 16px dash before it; the others are `faint`.
+- Active state comes from `useActiveSection` (IntersectionObserver): the section sitting in a 68px strip under the nav. Above the first section, the first entry is marked; at the bottom of the page, the last one.
+- Clicking uses the anchor; smooth scrolling and the nav offset come from CSS (`scroll-behavior`, `scroll-mt-14` on sections).
 
 ## Section headers
 

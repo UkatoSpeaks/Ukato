@@ -14,7 +14,11 @@ function toggleTheme() {
   window.setTimeout(() => root.classList.remove("theme-transition"), 250);
 }
 
-export function ThemeToggle() {
+export function ThemeToggle({
+  className = "text-ink-3 transition-colors duration-200 hover:text-ink",
+}: {
+  className?: string;
+}) {
   // Both icons render; the .dark class picks one, so there is no state to
   // hydrate and no flash.
   return (
@@ -22,7 +26,7 @@ export function ThemeToggle() {
       type="button"
       onClick={toggleTheme}
       aria-label="Toggle theme"
-      className="text-ink-3 transition-colors duration-200 hover:text-ink"
+      className={className}
     >
       <Moon size={16} strokeWidth={1.75} className="dark:hidden" />
       <Sun size={16} strokeWidth={1.75} className="hidden dark:block" />

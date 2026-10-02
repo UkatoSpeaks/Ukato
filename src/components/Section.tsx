@@ -14,7 +14,7 @@ export function Section({ id, title, action, children }: Props) {
     <section id={id} aria-labelledby={`${id}-title`} className="scroll-mt-14">
       <div className="rule" />
       <div className="hatch">
-        <div className="col flex h-14 items-center justify-between gap-6 bg-bg px-8">
+        <div className="col flex h-14 items-center justify-between gap-6 bg-bg px-4 sm:px-8">
           <h2
             id={`${id}-title`}
             className="font-display text-[26px] leading-none tracking-normal text-text"
@@ -25,7 +25,7 @@ export function Section({ id, title, action, children }: Props) {
         </div>
       </div>
       <div className="rule" />
-      <Reveal className="col px-8 py-8 md:py-10">{children}</Reveal>
+      <Reveal className="col px-4 py-8 sm:px-8 md:py-10">{children}</Reveal>
     </section>
   );
 }
