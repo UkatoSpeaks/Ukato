@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ChevronRight, ExternalLink } from "lucide-react";
 import { contact, github, projects, sections } from "@/content/data";
@@ -13,6 +14,10 @@ import { ProjectGrid } from "@/components/ProjectGrid";
 import { Section } from "@/components/Section";
 import { SideIndex } from "@/components/SideIndex";
 import { TechStack } from "@/components/TechStack";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 const featured = projects.filter((p) => p.featured);
 const githubUrl = contact.links.find((l) => l.id === "github")?.href;

@@ -18,6 +18,7 @@ import {
   type TechCategory,
 } from "@/content/data";
 import { fallbackIcon, techIcons } from "@/components/techIcons";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const categoryIcons: Record<TechCategory, LucideIcon> = {
   Languages: Code,
@@ -40,6 +41,7 @@ const tabs: { label: string; category: TechCategory | null; icon: LucideIcon }[]
 
 export function TechStack() {
   const [active, setActive] = useState<TechCategory | null>(null);
+  const reduce = useReducedMotion();
 
   // "All" lists every chip in category order.
   const items = techStack
@@ -47,7 +49,8 @@ export function TechStack() {
     .flatMap((g) => g.items);
 
   return (
-    // reducedMotion="user" drops the sliding and scaling for visitors who ask.
+    // reducedMotion="user" drops the sliding and scaling for visitors who ask;
+    // the durations below make what is left instant.
     <MotionConfig reducedMotion="user">
       <div className="relative px-3 py-2 sm:px-4">
         <div
@@ -72,7 +75,11 @@ export function TechStack() {
                   <motion.span
                     layoutId="tech-tab"
                     className="absolute inset-0 rounded-md bg-text"
-                    transition={{ type: "spring", stiffness: 420, damping: 36 }}
+                    transition={
+                      reduce
+                        ? { duration: 0 }
+                        : { type: "spring", stiffness: 420, damping: 36 }
+                    }
                   />
                 )}
                 <tab.icon
@@ -104,7 +111,7 @@ export function TechStack() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.2 }}
+                transition={{ duration: reduce ? 0 : 0.2 }}
                 style={
                   {
                     "--brand-light": color,

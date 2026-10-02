@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Pause, Play, SkipBack, SkipForward } from "lucide-react";
 import { nowPlaying } from "@/content/data";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 /** Degrees per second at full speed: one turn every 3s. */
 const SPEED = 120;

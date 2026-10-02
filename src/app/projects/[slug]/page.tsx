@@ -30,7 +30,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description: project.description,
-    openGraph: { title, description: project.description, type: "article" },
+    alternates: { canonical: `/projects/${slug}` },
+    openGraph: {
+      title,
+      description: project.description,
+      type: "article",
+      url: `/projects/${slug}`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: project.description,
+    },
   };
 }
 
@@ -60,7 +71,6 @@ export default async function ProjectPage({ params }: Props) {
                 title={project.title}
                 src={projectImage(project.image)}
                 sizes="(min-width: 760px) 696px, 100vw"
-                priority
               />
             </div>
 

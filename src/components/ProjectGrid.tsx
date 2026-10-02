@@ -10,7 +10,7 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
         <li key={project.slug}>
           {/* Stagger within a row; later rows reveal as they scroll in. */}
           <Reveal className="h-full" delay={(i % 2) * 0.08}>
-            <ProjectCard project={project} viewfinder={i === 0} priority={i < 2} />
+            <ProjectCard project={project} viewfinder={i === 0} />
           </Reveal>
         </li>
       ))}

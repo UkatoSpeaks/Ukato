@@ -15,9 +15,7 @@
   --text: #171717;
   --soft: #3d3d3d;
   --muted: #5c5c5c;
-  --faint: #8c8c8c;
-  --seal: #c2361f;
-
+  --faint: #6b6b6b;
   /* Contribution heatmap, levels 0 to 4. */
   --gh-0: var(--surface-2);
   --gh-1: #9be9a8;
@@ -27,14 +25,6 @@
 
   /* Width of the centered content column. */
   --col: 760px;
-
-  /* Old washi names, still used by the case-study pages until they move over. */
-  --paper: var(--bg);
-  --paper-2: var(--surface);
-  --ink: var(--text);
-  --ink-2: color-mix(in srgb, var(--text) 75%, var(--bg));
-  --ink-3: var(--muted);
-  --line: var(--border);
 }
 
 .dark {
@@ -46,9 +36,7 @@
   --text: #f5f5f5;
   --soft: #c4c4c4;
   --muted: #a1a1a1;
-  --faint: #737373;
-  --seal: #d9482f;
-
+  --faint: #858585;
   --gh-1: #0e4429;
   --gh-2: #006d32;
   --gh-3: #26a641;
@@ -65,35 +53,17 @@
   --color-muted: var(--muted);
   --color-faint: var(--faint);
 
-  --color-paper: var(--paper);
-  --color-paper-2: var(--paper-2);
-  --color-ink: var(--ink);
-  --color-ink-2: var(--ink-2);
-  --color-ink-3: var(--ink-3);
-  --color-line: var(--line);
-  --color-seal: var(--seal);
-
   --font-display: var(--font-instrument-serif), ui-serif, Georgia, serif;
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
-  --font-serif: var(--font-display);
 
   --radius-card: 12px;
   --radius-chip: 4px;
 
-  /* Names and titles. */
-  --font-weight-name: 550;
+  /* Status dots: REC on the first project, the footer clock. */
+  --animate-dot-pulse: dot-pulse 2s ease-in-out infinite;
 
-  --animate-seal-pulse: seal-pulse 2s ease-in-out infinite;
-  --animate-fade: fade 200ms ease-out;
-
-  @keyframes fade {
-    from {
-      opacity: 0;
-    }
-  }
-
-  @keyframes seal-pulse {
+  @keyframes dot-pulse {
     0%,
     100% {
       opacity: 1;
@@ -125,10 +95,12 @@ body {
   background: color-mix(in srgb, var(--text) 18%, transparent);
 }
 
-:focus-visible {
-  outline: 2px solid color-mix(in srgb, var(--text) 45%, transparent);
-  outline-offset: 2px;
-  border-radius: 2px;
+/* In the base layer so a component can replace it with its own ring. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--text) 60%, transparent);
+    outline-offset: 2px;
+  }
 }
 
 /* Set by the theme toggle for the duration of the swap only. */
@@ -347,45 +319,19 @@ body {
   }
 }
 
-/* Inline text link: hairline underline that darkens on hover. */
-@utility link {
-  color: var(--text);
-  text-decoration-line: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-  text-decoration-color: var(--border);
-  transition: text-decoration-color 200ms ease;
-
-  &:hover {
-    text-decoration-color: var(--text);
-  }
-}
-
-/* Years, times and small labels. */
-@utility meta {
-  font-size: 13px;
-  color: var(--muted);
-  font-variant-numeric: tabular-nums;
-}
-
-/* Emphasis word. Line-height 1 keeps the larger serif from pushing the line. */
-@utility emph {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 1.12em;
-  line-height: 1;
-  letter-spacing: 0;
-  color: var(--text);
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
 
-  .animate-seal-pulse,
-  .animate-fade {
+  .animate-dot-pulse {
     animation: none;
+  }
+
+  /* Everything that fades or slides in is simply there. */
+  [data-fade] {
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   .theme-transition,

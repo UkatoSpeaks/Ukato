@@ -16,8 +16,6 @@ export type Profile = {
   shortName: string;
   pronunciation: string;
   role: string;
-  /** One line for the page description and link previews. */
-  tagline: string;
   location: string;
   /** IANA time zone, for the local clock. */
   timezone: string;
@@ -64,7 +62,6 @@ export type ContactLink = {
 };
 
 export type Contact = {
-  note: string;
   /** Plain address, for display and copy. The mail link carries the mailto. */
   email: string;
   links: ContactLink[];
@@ -109,28 +106,12 @@ export type Experience = {
   end: string;
   summary: string;
   points: ExperiencePoint[];
-  href?: string;
 };
 
 export type ExperiencePoint = {
   /** Short heading on the timeline. */
   title: string;
   detail: string;
-};
-
-export type Education = {
-  degree: string;
-  school: string;
-  location: string;
-  start: string;
-  end: string;
-  href?: string;
-};
-
-export type Achievement = {
-  title: string;
-  detail?: string;
-  href?: string;
 };
 
 export type Stat = {
@@ -140,6 +121,7 @@ export type Stat = {
 
 /** The stat filled in from GitHub, and what replaces it if that fails. */
 export type ContributionsStat = {
+  /** The year is added after it. */
   label: string;
   fallback: Stat;
 };
@@ -186,12 +168,20 @@ export type Footer = {
 // Content
 // ---------------------------------------------------------------------------
 
+/** Page metadata and link previews. */
+export const site = {
+  /** Where the site is deployed, without a trailing slash. */
+  url: "SITE_URL_TODO",
+  title: "Anurag Chaudhary — AI Engineer",
+  description:
+    "AI Engineer & Full Stack Developer building AI agents, RAG pipelines and full-stack products.",
+};
+
 export const profile: Profile = {
   name: "Anurag Chaudhary",
   shortName: "Anurag",
   pronunciation: "/a · nu · raag/",
   role: "AI Engineer · Full Stack Developer",
-  tagline: "AI engineer who also ships full-stack.",
   location: "Dehradun, India",
   timezone: "Asia/Kolkata",
   avatar: "/avatar.svg",
@@ -235,7 +225,6 @@ export const about: About = {
 const email = "chaudharyanurag801@gmail.com";
 
 export const contact: Contact = {
-  note: "The best way to reach me is email. I usually reply within a day.",
   email,
   links: [
     { id: "github", label: "GitHub", href: "https://github.com/UkatoSpeaks" },
@@ -651,31 +640,6 @@ export const experience: Experience[] = [
   },
 ];
 
-export const education: Education[] = [
-  {
-    degree: "B.Tech, Computer Science and Engineering",
-    school: "Graphic Era University",
-    location: "Dehradun",
-    start: "2023",
-    end: "2027",
-  },
-];
-
-export const achievements: Achievement[] = [
-  {
-    title: "LeetCode Knight",
-    detail: "Top 5%, 350+ problems solved",
-  },
-  {
-    title: "Oracle Certified Foundations Associate",
-    detail: "Oracle University",
-  },
-  {
-    title: "Oracle Agentic AI Certified Foundations Associate",
-    detail: "Oracle University",
-  },
-];
-
 export const stats: Stat[] = [
   { value: "6+", label: "Projects shipped" },
   { value: "AI+Web", label: "Stack focus" },
@@ -685,9 +649,10 @@ export const stats: Stat[] = [
   },
 ];
 
-// Shown after `stats`. The value is the last year of GitHub contributions.
+// Shown after `stats`. The value is this year's GitHub contributions, the same
+// number as under the heatmap.
 export const contributionsStat: ContributionsStat = {
-  label: "Contributions",
+  label: "Contributions in",
   fallback: { value: "1", label: "Internship" },
 };
 
@@ -732,6 +697,27 @@ export const github: GitHub = {
   less: "Less",
   more: "More",
   error: "Contributions could not be loaded right now.",
+};
+
+export const palette = {
+  label: "Command palette",
+  placeholder: "Search sections, projects, links…",
+  empty: "No results",
+  groups: {
+    sections: "Sections",
+    projects: "Projects",
+    links: "Links",
+    actions: "Actions",
+  },
+  copyEmail: "Copy email",
+  copied: "Copied",
+  toggleTheme: "Toggle theme",
+};
+
+export const notFound = {
+  title: "Lost in the shadows.",
+  text: "This page does not exist, or it has moved.",
+  back: "Back home",
 };
 
 export const footer: Footer = {

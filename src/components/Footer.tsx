@@ -21,7 +21,7 @@ export function Footer() {
         <p className="mt-3 flex flex-wrap items-center justify-center gap-x-2 font-mono text-xs tracking-normal text-muted">
           <span
             aria-hidden
-            className="mr-0.5 size-1.5 animate-seal-pulse rounded-full bg-[#22c55e]"
+            className="mr-0.5 size-1.5 animate-dot-pulse rounded-full bg-[#22c55e]"
           />
           {profile.location}
           <span aria-hidden className="text-faint">

@@ -1,0 +1,24 @@
+"use client";
+
+import { useSyncExternalStore } from "react";
+
+const QUERY = "(prefers-reduced-motion: reduce)";
+
+function subscribe(onChange: () => void) {
+  const media = window.matchMedia(QUERY);
+  media.addEventListener("change", onChange);
+  return () => media.removeEventListener("change", onChange);
+}
+
+/**
+ * Whether the visitor asked for reduced motion. False on the server and
+ * during hydration, then the real value, so markup that depends on it is
+ * updated after hydration instead of being left as the server rendered it.
+ */
+export function useReducedMotion(): boolean {
+  return useSyncExternalStore(
+    subscribe,
+    () => window.matchMedia(QUERY).matches,
+    () => false,
+  );
+}

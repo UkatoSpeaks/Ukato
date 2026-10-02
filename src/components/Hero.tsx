@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { MapPin, Search, Star } from "lucide-react";
-import { contact, profile } from "@/content/data";
+import { contact, palette, profile } from "@/content/data";
 import { projectImage } from "@/lib/projectImage";
+import { PaletteTrigger } from "@/components/PaletteTrigger";
 import { Reveal } from "@/components/Reveal";
 
 export function Hero() {
@@ -35,7 +36,6 @@ export function Hero() {
               alt={`Portrait of ${profile.name}`}
               fill
               unoptimized
-              priority
               className="object-cover"
             />
           )}
@@ -66,15 +66,13 @@ export function Hero() {
               <Star size={18} strokeWidth={1.75} />
             </a>
           )}
-          {/* Will open the command palette. */}
-          <button
-            type="button"
-            aria-label="Search"
+          <PaletteTrigger
+            label={palette.label}
             className="inline-flex h-8 items-center gap-2 rounded-lg border border-border bg-surface-2 px-3 font-mono text-[11px] tracking-[0.06em] text-muted transition-colors duration-200 hover:text-text"
           >
             <Search size={14} strokeWidth={1.75} />
             ⌘K
-          </button>
+          </PaletteTrigger>
         </div>
       </div>
     </Reveal>

@@ -48,7 +48,7 @@ export function Contact() {
               target={external ? "_blank" : undefined}
               rel={external ? "noreferrer" : undefined}
               style={{ "--brand": color } as React.CSSProperties}
-              className="group flex h-16 items-center justify-center gap-3 px-3 transition-colors duration-200 hover:bg-surface-2"
+              className="group flex h-16 -outline-offset-2 items-center justify-center gap-3 px-3 transition-colors duration-200 hover:bg-surface-2"
             >
               <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg border border-border bg-surface text-muted transition-colors duration-200 group-hover:text-(--brand)">
                 <Icon size={17} />

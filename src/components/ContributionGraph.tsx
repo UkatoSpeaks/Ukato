@@ -58,7 +58,7 @@ function monthLabels(weeks: (ContributionDay | null)[][]) {
 }
 
 const frame = "[--cell:11px] md:[--cell:10px]";
-const cell = "size-(--cell) rounded-[2px]";
+const cell = "size-(--cell) rounded-[3px]";
 const column = "flex flex-col gap-[3px]";
 const grid = "flex w-max gap-[3px]";
 
@@ -109,7 +109,7 @@ export function ContributionSkeleton({ years }: { years: number[] }) {
           ))}
         </div>
       </div>
-      <div className="mt-4 h-4" />
+      <div className="mt-3 h-[52px]" />
     </div>
   );
 }
@@ -214,7 +214,8 @@ export function ContributionGraph({ years, href, today }: Props) {
                         <span
                           key={d}
                           data-tip={`${plural(day.count)} on ${dateFormat.format(utc(day.date))}`}
-                          className={cell}
+                          // Days still to come are dimmed.
+                          className={`${cell} ${day.date > today ? "opacity-40" : ""}`}
                           style={{ background: `var(--gh-${day.level})` }}
                         />
                       ) : (
@@ -241,11 +242,8 @@ export function ContributionGraph({ years, href, today }: Props) {
             </div>
           )}
 
-          <div className="mt-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 font-mono text-xs tracking-normal">
-            <p className="text-muted">
-              {plural(data.total)} in {active}
-            </p>
-            <p className="flex items-center gap-[3px] text-faint">
+          <div className="mt-3 font-mono text-xs tracking-normal">
+            <p className="flex items-center justify-end gap-[3px] text-faint">
               <span className="mr-1.5">{github.less}</span>
               {LEVELS.map((level) => (
                 <span
@@ -256,6 +254,9 @@ export function ContributionGraph({ years, href, today }: Props) {
                 />
               ))}
               <span className="ml-1.5">{github.more}</span>
+            </p>
+            <p className="mt-3 text-muted">
+              {plural(data.total)} in {active}
             </p>
           </div>
         </>

@@ -8,13 +8,12 @@ import { ProjectCover } from "@/components/ProjectCover";
 type Props = {
   project: Project;
   viewfinder?: boolean;
-  priority?: boolean;
 };
 
 const iconLink =
   "text-muted transition-colors duration-[250ms] hover:text-text";
 
-export function ProjectCard({ project, viewfinder, priority }: Props) {
+export function ProjectCard({ project, viewfinder }: Props) {
   return (
     <article
       style={{ "--accent": project.accentColor } as React.CSSProperties}
@@ -24,7 +23,6 @@ export function ProjectCard({ project, viewfinder, priority }: Props) {
         title={project.title}
         src={projectImage(project.image)}
         sizes="(min-width: 768px) 290px, 100vw"
-        priority={priority}
         viewfinder={viewfinder}
       />
 
@@ -33,7 +31,7 @@ export function ProjectCard({ project, viewfinder, priority }: Props) {
           {/* The link covers the whole card; the icon links sit above it. */}
           <Link
             href={`/projects/${project.slug}`}
-            className="after:absolute after:inset-0 after:rounded-[inherit]"
+            className="outline-none after:absolute after:inset-0 after:rounded-(--radius-card) focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-text/45"
           >
             {project.title}
           </Link>
