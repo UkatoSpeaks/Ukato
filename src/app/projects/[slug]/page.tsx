@@ -8,7 +8,7 @@ import { Flow } from "@/components/Flow";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { ProjectArt } from "@/components/ProjectArt";
-import { Section } from "@/components/Section";
+import { CaseSection } from "@/components/CaseSection";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -159,14 +159,14 @@ export default async function ProjectPage({ params }: Props) {
 
         <div className="mt-20 flex flex-col gap-20">
           {sections.map((s, i) => (
-            <Section key={s.label} index={firstSection + i} label={s.label}>
+            <CaseSection key={s.label} index={firstSection + i} label={s.label}>
               {s.body}
-            </Section>
+            </CaseSection>
           ))}
           {project.flow && (
-            <Section index={flowIndex} label="Flow">
+            <CaseSection index={flowIndex} label="Flow">
               <Flow steps={project.flow} delay={flowIndex * 0.05 + 0.15} />
-            </Section>
+            </CaseSection>
           )}
         </div>
 

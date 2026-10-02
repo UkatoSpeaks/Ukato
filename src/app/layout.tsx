@@ -1,21 +1,26 @@
 import type { Metadata } from "next";
-import { Inter, Newsreader } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { site } from "@/content/data";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+// Display: the name and section titles.
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
   subsets: ["latin"],
-  axes: ["opsz"],
+  weight: "400",
+  style: ["normal", "italic"],
 });
 
-// Emphasis words only. Loaded as the variable font because next/font only
-// exposes the opsz axis that way; it is used at its regular (400) weight.
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
+// Body.
+const geist = Geist({
+  variable: "--font-geist",
   subsets: ["latin"],
-  style: "italic",
-  axes: ["opsz"],
+});
+
+// Labels, meta and tags.
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -23,8 +28,9 @@ export const metadata: Metadata = {
   description: site.tagline,
 };
 
-// Runs before first paint so a saved dark theme never flashes light.
-const themeScript = `try{if(localStorage.getItem("theme")==="dark")document.documentElement.classList.add("dark")}catch(e){}`;
+// Dark is the default, so <html> ships with .dark. This runs before first
+// paint and drops it when the visitor has saved the light theme.
+const themeScript = `try{if(localStorage.getItem("theme")==="light")document.documentElement.classList.remove("dark")}catch(e){}`;
 
 export default function RootLayout({
   children,
@@ -34,7 +40,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${newsreader.variable}`}
+      className={`dark ${instrumentSerif.variable} ${geist.variable} ${geistMono.variable}`}
       suppressHydrationWarning
     >
       <head>

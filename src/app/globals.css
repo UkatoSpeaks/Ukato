@@ -3,32 +3,47 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
- * Washi tokens. Light is the default; .dark on <html> swaps the values.
- * Seal (vermilion) is the only accent: the mark, the status dot, link hover.
+ * Color tokens. Dark is the default: <html> ships with .dark and the theme
+ * script removes it when the visitor has chosen light. See DESIGN.md.
  */
 :root {
   color-scheme: light;
-  --paper: #f7f5f0;
-  --paper-2: #efece5;
-  --ink: #151515;
-  --ink-2: #5e5e5a;
-  --ink-3: #9a9790;
-  --line: #e3dfd6;
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --border: #e4e4e4;
+  --text: #171717;
+  --muted: #6b6b6b;
   --seal: #c2361f;
+
+  /* Width of the centered content column. */
+  --col: 900px;
+
+  /* Old washi names, still used by the case-study pages until they move over. */
+  --paper: var(--bg);
+  --paper-2: var(--surface);
+  --ink: var(--text);
+  --ink-2: color-mix(in srgb, var(--text) 75%, var(--bg));
+  --ink-3: var(--muted);
+  --line: var(--border);
 }
 
 .dark {
   color-scheme: dark;
-  --paper: #0f0f0e;
-  --paper-2: #181816;
-  --ink: #edebe6;
-  --ink-2: #b3b0a9;
-  --ink-3: #7a776f;
-  --line: #262522;
+  --bg: #0a0a0a;
+  --surface: #111111;
+  --border: #262626;
+  --text: #ededed;
+  --muted: #8a8a8a;
   --seal: #d9482f;
 }
 
 @theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+
   --color-paper: var(--paper);
   --color-paper-2: var(--paper-2);
   --color-ink: var(--ink);
@@ -37,8 +52,13 @@
   --color-line: var(--line);
   --color-seal: var(--seal);
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-newsreader), ui-serif, Georgia, serif;
+  --font-display: var(--font-instrument-serif), ui-serif, Georgia, serif;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-serif: var(--font-display);
+
+  --radius-card: 12px;
+  --radius-chip: 6px;
 
   /* Names and titles. */
   --font-weight-name: 550;
@@ -64,28 +84,28 @@
 }
 
 html {
-  background: var(--paper);
+  background: var(--bg);
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--paper);
-  color: var(--ink-2);
+  background: var(--bg);
+  color: var(--text);
   font-family: var(--font-sans);
   font-size: 16px;
+  font-weight: 500;
   line-height: 1.7;
   letter-spacing: -0.011em;
-  font-feature-settings: "cv11", "ss01", "ss03";
-  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--seal) 15%, transparent);
+  background: color-mix(in srgb, var(--text) 18%, transparent);
 }
 
 :focus-visible {
-  outline: 2px solid color-mix(in srgb, var(--seal) 40%, transparent);
+  outline: 2px solid color-mix(in srgb, var(--text) 45%, transparent);
   outline-offset: 2px;
   border-radius: 2px;
 }
@@ -100,38 +120,117 @@ body {
     text-decoration-color 200ms ease !important;
 }
 
-/* Inline text link: ink, hairline underline that turns seal on hover. */
+/* The centered content column. Keeps a gutter on narrow screens. */
+@utility col {
+  width: min(var(--col), 100% - 2rem);
+  margin-inline: auto;
+}
+
+/* Full-width hairline with a dot marker just inside each page edge. */
+@utility rule {
+  position: relative;
+  height: 1px;
+  width: 100%;
+  background: var(--border);
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 5px;
+    height: 5px;
+    border-radius: 9999px;
+    background: var(--muted);
+    transform: translateY(-50%);
+  }
+
+  &::before {
+    left: 6px;
+  }
+
+  &::after {
+    right: 6px;
+  }
+}
+
+/* Diagonal hatch fill for section header bands. */
+@utility hatch {
+  background-image: repeating-linear-gradient(
+    45deg,
+    color-mix(in srgb, var(--text) 7%, transparent) 0 1px,
+    transparent 1px 8px
+  );
+}
+
+/* Labels, meta and tags: small mono, wide tracking. */
+@utility label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+@utility card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+
+@utility chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-chip);
+  background: var(--surface);
+  padding: 3px 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+/* Inline text link: hairline underline that darkens on hover. */
 @utility link {
-  color: var(--ink);
+  color: var(--text);
   text-decoration-line: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
-  text-decoration-color: var(--line);
+  text-decoration-color: var(--border);
   transition: text-decoration-color 200ms ease;
 
   &:hover {
-    text-decoration-color: var(--seal);
+    text-decoration-color: var(--text);
   }
 }
 
 /* Years, times and small labels. */
 @utility meta {
   font-size: 13px;
-  color: var(--ink-3);
+  color: var(--muted);
   font-variant-numeric: tabular-nums;
 }
 
 /* Emphasis word. Line-height 1 keeps the larger serif from pushing the line. */
 @utility emph {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-style: italic;
   font-size: 1.12em;
   line-height: 1;
   letter-spacing: 0;
-  color: var(--ink);
+  color: var(--text);
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   .animate-seal-pulse,
   .animate-fade {
     animation: none;
