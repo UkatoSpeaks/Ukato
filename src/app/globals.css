@@ -1,50 +1,251 @@
 @import "tailwindcss";
 
-/*
- * Design tokens. Dark only.
- * Accent is ink-red and rationed: active states, the cursor dot, tiny details.
- * Keep it to ~3 uses per screen.
- */
-@theme inline {
-  --color-bg: #0a0a0a;
-  --color-surface: #111111;
-  --color-border: #1f1f1f;
-  --color-text: #e8e8e8;
-  --color-muted: #8a8a8a;
-  --color-dim: #555555;
-  --color-accent: #b3261e;
+@custom-variant dark (&:where(.dark, .dark *));
 
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
-  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+/*
+ * Color tokens. Dark is the default: <html> ships with .dark and the theme
+ * script removes it when the visitor has chosen light. See DESIGN.md.
+ */
+:root {
+  color-scheme: light;
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --surface-2: #f3f3f3;
+  --border: rgb(0 0 0 / 0.1);
+  --text: #171717;
+  --muted: #5c5c5c;
+  --faint: #8c8c8c;
+  --seal: #c2361f;
+
+  /* Width of the centered content column. */
+  --col: 760px;
+
+  /* Old washi names, still used by the case-study pages until they move over. */
+  --paper: var(--bg);
+  --paper-2: var(--surface);
+  --ink: var(--text);
+  --ink-2: color-mix(in srgb, var(--text) 75%, var(--bg));
+  --ink-3: var(--muted);
+  --line: var(--border);
 }
 
-:root {
+.dark {
   color-scheme: dark;
+  --bg: #0a0a0a;
+  --surface: #101010;
+  --surface-2: #161616;
+  --border: rgb(255 255 255 / 0.1);
+  --text: #f5f5f5;
+  --muted: #a1a1a1;
+  --faint: #737373;
+  --seal: #d9482f;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-seal: var(--seal);
+
+  --font-display: var(--font-instrument-serif), ui-serif, Georgia, serif;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-serif: var(--font-display);
+
+  --radius-card: 12px;
+  --radius-chip: 4px;
+
+  /* Names and titles. */
+  --font-weight-name: 550;
+
+  --animate-seal-pulse: seal-pulse 2s ease-in-out infinite;
+  --animate-fade: fade 200ms ease-out;
+
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes seal-pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.35;
+    }
+  }
 }
 
 html {
-  background: var(--color-bg);
+  background: var(--bg);
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--color-bg);
-  color: var(--color-text);
+  background: var(--bg);
+  color: var(--text);
   font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: -0.02em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background: var(--color-accent);
-  color: var(--color-text);
+  background: color-mix(in srgb, var(--text) 18%, transparent);
 }
 
-/* Faint diagonal hatching for section divider bands. */
-@utility hatched {
+:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--text) 45%, transparent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Set by the theme toggle for the duration of the swap only. */
+.theme-transition,
+.theme-transition * {
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease,
+    text-decoration-color 200ms ease !important;
+}
+
+/* The centered content column. Keeps a gutter on narrow screens. */
+@utility col {
+  width: min(var(--col), 100% - 2rem);
+  margin-inline: auto;
+}
+
+/* Full-width hairline with a dot marker centred on each page edge, so half of
+   it shows. */
+@utility rule {
+  position: relative;
+  height: 1px;
+  width: 100%;
+  background: var(--border);
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    border-radius: 9999px;
+    background: var(--faint);
+    transform: translateY(-50%);
+  }
+
+  &::before {
+    left: -2px;
+  }
+
+  &::after {
+    right: -2px;
+  }
+}
+
+/* Diagonal hatch fill for section header bands. Shows in the gutters only:
+   the column inside the band is painted with the page background. */
+@utility hatch {
   background-image: repeating-linear-gradient(
-    45deg,
-    transparent 0,
-    transparent 7px,
-    rgb(255 255 255 / 0.035) 7px,
-    rgb(255 255 255 / 0.035) 8px
+    135deg,
+    color-mix(in srgb, var(--text) 5%, transparent) 0 1px,
+    transparent 1px 7px
   );
+}
+
+/* Labels, meta and tags: small mono, wide tracking. */
+@utility label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+@utility card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+
+@utility chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-chip);
+  background: var(--surface-2);
+  padding: 2px 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+
+/* Inline text link: hairline underline that darkens on hover. */
+@utility link {
+  color: var(--text);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--border);
+  transition: text-decoration-color 200ms ease;
+
+  &:hover {
+    text-decoration-color: var(--text);
+  }
+}
+
+/* Years, times and small labels. */
+@utility meta {
+  font-size: 13px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Emphasis word. Line-height 1 keeps the larger serif from pushing the line. */
+@utility emph {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.12em;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-seal-pulse,
+  .animate-fade {
+    animation: none;
+  }
+
+  .theme-transition,
+  .theme-transition * {
+    transition: none !important;
+  }
 }
