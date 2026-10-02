@@ -14,18 +14,18 @@ export function Section({ id, title, action, children }: Props) {
     <section id={id} aria-labelledby={`${id}-title`} className="scroll-mt-14">
       <div className="rule" />
       <div className="hatch">
-        <div className="col flex items-end justify-between gap-6 px-6 py-5">
+        <div className="col flex h-14 items-center justify-between gap-6 bg-bg px-8">
           <h2
             id={`${id}-title`}
-            className="font-display text-4xl leading-none tracking-normal text-text md:text-5xl"
+            className="font-display text-[26px] leading-none tracking-normal text-text"
           >
             {title}
           </h2>
-          {action && <div className="label shrink-0 pb-1">{action}</div>}
+          {action && <div className="label shrink-0">{action}</div>}
         </div>
       </div>
       <div className="rule" />
-      <Reveal className="col px-6 py-12 md:py-16">{children}</Reveal>
+      <Reveal className="col px-8 py-8 md:py-10">{children}</Reveal>
     </section>
   );
 }

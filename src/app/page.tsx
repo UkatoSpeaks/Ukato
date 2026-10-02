@@ -33,12 +33,12 @@ export default function Home() {
     <PageShell>
       <Nav items={sections} />
 
-      <Reveal className="col px-6 py-20 md:py-28">
+      <Reveal className="col px-8 py-12 md:py-16">
         <p className="label">{site.title}</p>
-        <h1 className="mt-4 font-display text-6xl leading-[0.95] tracking-normal text-text md:text-8xl">
+        <h1 className="mt-3 font-display text-[40px] leading-none tracking-[-0.04em] text-text">
           {site.name}
         </h1>
-        <p className="mt-6 max-w-[52ch] text-muted">{site.tagline}</p>
+        <p className="mt-4 max-w-[52ch] text-muted">{site.tagline}</p>
       </Reveal>
 
       <main>
@@ -51,7 +51,7 @@ export default function Home() {
 
       <footer>
         <div className="rule" />
-        <div className="col flex items-center justify-between gap-6 px-6 py-8">
+        <div className="col flex items-center justify-between gap-6 px-8 py-8">
           <p className="label">© 2026 {site.name}</p>
           <p className="label">{site.location}</p>
         </div>

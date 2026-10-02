@@ -10,8 +10,8 @@ export type NavItem = {
 export function Nav({ items }: { items: NavItem[] }) {
   return (
     <header className="sticky top-0 z-20 bg-bg/85 backdrop-blur">
-      <div className="col flex h-14 items-center justify-between gap-6 border-x border-dashed border-border px-6">
-        <Link href="/" className="font-display text-2xl leading-none text-text">
+      <div className="col flex h-[51px] items-center justify-between gap-6 border-x border-dashed border-border px-8">
+        <Link href="/" className="font-display text-xl leading-none text-text">
           {site.name}
         </Link>
         <nav className="flex items-center gap-6">
@@ -20,7 +20,7 @@ export function Nav({ items }: { items: NavItem[] }) {
               <li key={item.id}>
                 <a
                   href={`#${item.id}`}
-                  className="label transition-colors duration-200 hover:text-text"
+                  className="text-sm font-semibold text-muted transition-colors duration-200 hover:text-text"
                 >
                   {item.title}
                 </a>
@@ -30,7 +30,7 @@ export function Nav({ items }: { items: NavItem[] }) {
           <ThemeToggle />
         </nav>
       </div>
-      <div className="rule" />
+      <div className="h-px bg-border" />
     </header>
   );
 }

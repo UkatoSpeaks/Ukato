@@ -10,13 +10,15 @@
   color-scheme: light;
   --bg: #fafafa;
   --surface: #ffffff;
-  --border: #e4e4e4;
+  --surface-2: #f3f3f3;
+  --border: rgb(0 0 0 / 0.1);
   --text: #171717;
-  --muted: #6b6b6b;
+  --muted: #5c5c5c;
+  --faint: #8c8c8c;
   --seal: #c2361f;
 
   /* Width of the centered content column. */
-  --col: 900px;
+  --col: 760px;
 
   /* Old washi names, still used by the case-study pages until they move over. */
   --paper: var(--bg);
@@ -30,19 +32,23 @@
 .dark {
   color-scheme: dark;
   --bg: #0a0a0a;
-  --surface: #111111;
-  --border: #262626;
-  --text: #ededed;
-  --muted: #8a8a8a;
+  --surface: #101010;
+  --surface-2: #161616;
+  --border: rgb(255 255 255 / 0.1);
+  --text: #f5f5f5;
+  --muted: #a1a1a1;
+  --faint: #737373;
   --seal: #d9482f;
 }
 
 @theme inline {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
   --color-border: var(--border);
   --color-text: var(--text);
   --color-muted: var(--muted);
+  --color-faint: var(--faint);
 
   --color-paper: var(--paper);
   --color-paper-2: var(--paper-2);
@@ -92,10 +98,10 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
-  line-height: 1.7;
-  letter-spacing: -0.011em;
+  line-height: 1.6;
+  letter-spacing: -0.02em;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -126,7 +132,8 @@ body {
   margin-inline: auto;
 }
 
-/* Full-width hairline with a dot marker just inside each page edge. */
+/* Full-width hairline with a dot marker centred on each page edge, so half of
+   it shows. */
 @utility rule {
   position: relative;
   height: 1px;
@@ -138,40 +145,41 @@ body {
     content: "";
     position: absolute;
     top: 50%;
-    width: 5px;
-    height: 5px;
+    width: 4px;
+    height: 4px;
     border-radius: 9999px;
-    background: var(--muted);
+    background: var(--faint);
     transform: translateY(-50%);
   }
 
   &::before {
-    left: 6px;
+    left: -2px;
   }
 
   &::after {
-    right: 6px;
+    right: -2px;
   }
 }
 
-/* Diagonal hatch fill for section header bands. */
+/* Diagonal hatch fill for section header bands. Shows in the gutters only:
+   the column inside the band is painted with the page background. */
 @utility hatch {
   background-image: repeating-linear-gradient(
-    45deg,
-    color-mix(in srgb, var(--text) 7%, transparent) 0 1px,
-    transparent 1px 8px
+    135deg,
+    color-mix(in srgb, var(--text) 5%, transparent) 0 1px,
+    transparent 1px 7px
   );
 }
 
 /* Labels, meta and tags: small mono, wide tracking. */
 @utility label {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   line-height: 1.4;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--faint);
 }
 
 @utility card {
@@ -186,12 +194,12 @@ body {
   gap: 6px;
   border: 1px solid var(--border);
   border-radius: var(--radius-chip);
-  background: var(--surface);
-  padding: 3px 8px;
+  background: var(--surface-2);
+  padding: 2px 8px;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10px;
   line-height: 1.5;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.02em;
   color: var(--muted);
 }
 
